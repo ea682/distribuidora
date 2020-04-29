@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-
+const passport = require("passport");
 
 const UsersServices = require('../../services/users');
-
 const usersServices = new UsersServices();
 
-router.post("/", async function(req, res, next) {
+// JWT strategy
+require("../../utils/auth/strategies/jwt");
+
+router.post("/", passport.authenticate("jwt", { session: false }), async function(req, res, next) {
     try {
         const datos = await usersServices.getAllUsers().then(JSON);
         res.status(200).json({

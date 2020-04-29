@@ -20,14 +20,10 @@ api.post("/", async function(req, res, next) {
         if (error) {
           next(error);
         }
-        console.log("------------------------")
-        console.log(user)
+
         const payload = { user: user.NombreUser, email: user.Email};
-        console.log("------------------------1")
-        console.log(payload)
-        const token = jwt.sign(payload, config.authJwtSecret, {
-          expiresIn: "15m"
-        });
+
+        const token = jwt.sign(payload, config.authJwtSecret);
 
         return res.status(200).json({ access_token: token });
       });

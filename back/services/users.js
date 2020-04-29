@@ -4,7 +4,7 @@ class UsersService{
 
     getAllUsers(){
         return new Promise(function (resolve, reject){
-            const query = "SELECT * FROM users";
+            const query = "SELECT * FROM users WHERE NombreUser != 'admin'";
 
             conn.query(query, (err, rows) => {
                 if(err) throw err;
@@ -15,7 +15,7 @@ class UsersService{
 
     getUser(email){
         return new Promise(function (resolve, reject){
-            const query = "SELECT * FROM users WHERE Email = '"+email+"'";
+            const query = `SELECT * FROM users WHERE Email = ${email} and  NombreUser != 'admin'`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err) throw err;
@@ -35,9 +35,9 @@ class UsersService{
         });
     }
 
-    validarLogin(email){
+    validarLogin(nameUser){
         return new Promise(function (resolve, Promise){
-            const query = `SELECT * FROM users WHERE NombreUser = '${email}'`
+            const query = `SELECT * FROM users WHERE NombreUser = '${nameUser}'`
 
             conn.query(query, (err, rows) => {
                 if(err) throw err;
