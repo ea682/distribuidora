@@ -13,7 +13,8 @@ api.post("/", async function(req, res, next) {
   passport.authenticate("basic", function(error, user) {
     try {
       if (error || !user) {
-        next(boom.unauthorized());
+        //next(boom.unauthorized());
+        return res.status(200).json({ result: 'unauthorized' });
       }
 
       req.login(user, { session: false }, async function(error) {
