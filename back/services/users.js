@@ -1,4 +1,5 @@
 const { conn } = require('../lib/mariadb');
+const bcrypt = require("bcrypt");
 
 class UsersService{
 
@@ -15,7 +16,7 @@ class UsersService{
 
     getUser(email){
         return new Promise(function (resolve, reject){
-            const query = `SELECT * FROM users WHERE Email = ${email} and  NombreUser != 'admin'`;
+            const query = `SELECT * FROM users WHERE Email = '${email}'`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err) throw err;
@@ -24,9 +25,9 @@ class UsersService{
         });
     }
 
-    getEmailPasswordUser(user){
+    validarLogin(email, password){
         return new Promise(function (resolve, Promise){
-            const query = `SELECT Email, Password FROM users WHERE NombreUser = '${user} '`;
+            const query = `SELECT * FROM users WHERE Email = '${email}' and Password = '${password}'`;
 
             conn.query(query, (err, rows) => {
                 if(err) throw err;
@@ -35,14 +36,13 @@ class UsersService{
         });
     }
 
-    validarLogin(nameUser){
+    compararPassword(password1, password2){
         return new Promise(function (resolve, Promise){
-            const query = `SELECT * FROM users WHERE NombreUser = '${nameUser}'`
-
-            conn.query(query, (err, rows) => {
-                if(err) throw err;
-                return resolve(rows);
-            });
+            //Comparamos
+            const resulValidacion = bcrypt.compare(password1, password2);
+            if(resulValidacion){
+                return resolve(resulValidacion);
+            }
         });
     }
 }
