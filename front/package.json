@@ -2,7 +2,7 @@
   "name": "distribuidora",
   "version": "0.1.0",
   "private": true,
-  "proxt": "http://localhost:8000",
+  "proxi": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
