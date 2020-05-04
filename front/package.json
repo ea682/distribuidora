@@ -2,20 +2,25 @@
   "name": "distribuidora",
   "version": "0.1.0",
   "private": true,
+  "proxi": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "all": "0.0.0",
+    "axios": "^0.19.2",
     "boostrap": "^2.0.0",
     "bootstrap": "^4.4.1",
+    "nodemon": "^2.0.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "dev": "nodemon index",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

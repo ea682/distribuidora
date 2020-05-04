@@ -6,10 +6,9 @@ const CompradoresServices = require('../../services/compradores');
 
 const compradoresServices = new CompradoresServices();
 
-router.get("/", async function(req, res, next) {
+router.post("/", async function(req, res, next) {
     try {
         const datos = await compradoresServices.getAll().then(JSON);
-        console.log(datos);
         res.status(200).json({
             compradores: datos,
             message: "compradrores listed"
@@ -17,6 +16,8 @@ router.get("/", async function(req, res, next) {
     } catch (error) {
         next(error);
     }
-})
+});
+
+
 
 module.exports = router;

@@ -1,19 +1,25 @@
 import React from 'react';
-import './App.css';
-import Categorias from './Components/Categorias.js';
+import { BrowserRouter, Switch, Route} from 'react-router-dom';
+
+import Home from './Components/Home';
+import Login from './Components/Login/Login';
+import Registro from './Components/Login/Registro';
+import AuthComponent from './Components/Login/AuthenticatedComponent';
+import Protected from './Components/Login/Protected';
 
 class App extends React.Component {
   render(){
     return (
-      <div className= 'app'>
-        <ul class="list-group">
-          <Categorias name = 'Home'/>
-          <Categorias name = 'Cliente' item = {['Listar','Agregar','Modificar','Eliminar']} />
-          <Categorias name = 'Vendedor' item = {['Listar','Agregar','Modificar','Eliminar']} />
-          <Categorias name = 'Producto' item = {['Listar','Agregar','Modificar','Eliminar']} />
-          <Categorias name = 'Factura' item = {['Listar','Agregar','Modificar','Eliminar']} />
-        </ul>
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <Route path={'/Home'} component={Home} />
+          <Route path={'/login'} exact component={Login} />
+          <Route path={'/register'} exact component={Registro} />
+          <AuthComponent>
+            <Route path={'/protected'} component={Protected} />
+          </AuthComponent>
+        </Switch>
+      </BrowserRouter>
     );
   }
   
