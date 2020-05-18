@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import Home from './Components/Home';
+
+//Impotamos las paginas para luego llamarlas
+import main from './Components/Home/main';
 import Login from './Components/Login/Login';
 import Registro from './Components/Login/Registro';
 import AuthComponent from './Components/Login/AuthenticatedComponent';
@@ -9,10 +11,12 @@ import Protected from './Components/Login/Protected';
 
 class App extends React.Component {
   render(){
+    //Los routes es como se llamaran en la URL
     return (
       <BrowserRouter>
         <Switch>
-          <Route path={'/Home'} component={Home} />
+          
+          <Route path={'/main'} component={main} />
           <Route path={'/login'} exact component={Login} />
           <Route path={'/register'} exact component={Registro} />
           <AuthComponent>
