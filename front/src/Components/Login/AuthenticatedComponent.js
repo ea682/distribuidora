@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import { getJwt } from '../helpers/jwt';
 import { withRouter } from 'react-router-dom';
 
-import Cliente from '../Home/Cliente';
-import Factura from '../Home/Factura';
-import Producto from '../Home/Producto';
-import Home from '../Home/Home';
-
 class AuthenticatedComponent extends Component {
   constructor(props) {
     super(props);
