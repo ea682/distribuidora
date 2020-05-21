@@ -1,8 +1,10 @@
 const express = require('express');
 
+
+const authApiRouter = require("./routes/api/auth");
 const compradores = require('./routes/api/compradores');
 const users = require('./routes/api/users');
-const authApiRouter = require("./routes/api/auth");
+const localizacion = require('./routes/api/localizacion');
 
 const test = require('./test');
 const bodyparser = require('body-parser');
@@ -32,6 +34,7 @@ app.use(function (req, res, next) {
 app.use(bodyparser.json());
 app.use("/api/compradores", compradores);
 app.use("/api/users", users);
+app.use("/api/localizacion", localizacion);
 app.use("/api/auth", authApiRouter);
 app.use("/api/test", test);
 

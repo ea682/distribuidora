@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getJwt } from '../helpers/jwt';
 import { withRouter } from 'react-router-dom';
 
+
 class AuthenticatedComponent extends Component {
   constructor(props) {
     super(props);

@@ -35,7 +35,6 @@ router.get("/:email", async function(req, res, next) {
 
 router.post("/register/:userName/:email/:password", async function(req, res, next) {
     try {
-        console.log(req.params)
         const { userName, email, password } = req.params;
         const datos = await usersServices.insertUser(userName, email, password).then(JSON);
         if(datos){
@@ -51,17 +50,6 @@ router.post("/register/:userName/:email/:password", async function(req, res, nex
     } catch (error) {
         next(error);
     }
-    
-    /*try {
-        const { email } = req.params;
-        const datos = await usersServices.getUser(email).then(JSON);
-        res.status(200).json({
-            User: datos,
-            message: "Datos User"
-        });
-    } catch (error) {
-        next(error);
-    }*/
 });
 
 module.exports = router;

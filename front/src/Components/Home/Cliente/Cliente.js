@@ -1,6 +1,44 @@
 import React from 'react';
+import axios from 'axios';
+import api from '../../config/Api';
 
 class Cliente extends React.Component{
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      datos : []
+    };
+  }
+  componentDidMount(){
+    this.llenarRegions();
+  }
+
+  llenarRegions(){
+    axios.get(api+'/api/localizacion/', {
+    }).then(res => {
+      let datos = res.data.regiones;
+      console.log(datos);
+      let cboRegiones = document.getElementById("cboRegion");
+      for (let i = 0; i < datos.length; i++) {
+        //Creamos elemento
+        let opt = document.createElement("option");
+        //Le damos valor
+        opt.value = datos[i].id;
+        //Le damos el texto
+        opt.textContent = datos[i].NombreRegion;
+        cboRegiones.options.add(opt);
+        //const element = array[index];
+        
+      }
+      return res.data.regiones;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  }
   state = {};
   handleChange =(e)=>{
     this.setState({
@@ -11,9 +49,10 @@ class Cliente extends React.Component{
     console.log('button was click')
     console.log(this.state)
   }
+
   render(){
     return(
-      <div>
+      <div className="form-page">
         <h1> Nuevo Cliente</h1>
 
         <form>
@@ -37,8 +76,29 @@ class Cliente extends React.Component{
             <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'direccion' value= {this.state.direccion}  />
           </div>
           <div className = 'form-group'>
+            <label>Region</label>
+            <select class="form-control" id="cboRegion">
+            </select>
+          </div>
+          <div className = 'form-group'>
+            <label>Provincia</label>
+            <select class="form-control" id="cboRegion">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div className = 'form-group'>
             <label>Comuna</label>
-            <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'comuna' value= {this.state.comuna}  />
+            <select class="form-control" id="cboRegion">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
           </div>
           <div className = 'form-group'>
             <label>Ciudad</label>

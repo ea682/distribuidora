@@ -13,7 +13,7 @@ class Factura extends React.Component{
   }
   render(){
     return(
-      <div>
+      <div className="form-page">
         <h1> Nueva Factura</h1>
 
         <form>
