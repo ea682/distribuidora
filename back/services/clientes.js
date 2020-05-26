@@ -4,7 +4,7 @@ const { conn } = require('../lib/mariadb');
 class ClienteService{
     getAllClientes(){
         return new Promise(function (resolve, reject){
-            const query = "SELECT cli.rut, cli.nombreCliente, cli.direccion, cli.giro, co.NombreComunas, tipo.NombreTipoCliente FROM cliente AS cli INNER JOIN comunas AS co  ON cli.idComuna = co.id INNER JOIN tipoCliente AS tipo ON cli.idTipoCliente = tipo.id";
+            const query = "SELECT * FROM cliente";
 
             conn.query(query, (err, rows) => {
                 if(err) throw err;

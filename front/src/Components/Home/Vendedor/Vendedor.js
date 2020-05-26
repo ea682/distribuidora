@@ -33,11 +33,6 @@ class Vendedor extends React.Component{
             <label>Comuna</label>
             <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'comuna' value= {this.state.comuna}  />
           </div>
-          <div className = 'form-group'>
-            <label>Ciudad</label>
-            <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'ciudad' value= {this.state.ciudad}  />
-          </div>
-
           <button type = 'button' onClick ={this.handleClick} className = 'btn btn-primary'> Guardar </button>
         </form>
       </div>
