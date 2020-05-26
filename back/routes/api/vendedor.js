@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const ClientesServices = require('../../services/clientes');
-const clientesServices = new ClientesServices();
+const VendedorServices = require('../../services/vendedor');
+const vendedorServices = new VendedorServices();
 
 router.get("/", async function(req, res, next) {
     try {
-        const datos = await clientesServices.getAllClientes().then(JSON);
+        const datos = await vendedorServices.getAllVendedor().then(JSON);
         res.status(200).json({
-            clientes: datos,
+            vendedores: datos,
         });
     } catch (error) {
         res.status(200).json({
@@ -18,10 +18,10 @@ router.get("/", async function(req, res, next) {
     }
 });
 
-router.post("/:rut/:nombreCliente/:direccion/:giro/:comuna/:tipoCliente", async function(req, res, next) {
+router.post("/:rut/:nombre/:direccion/:comuna", async function(req, res, next) {
     try {
-        const { rut, nombreCliente, direccion, giro, comuna, tipoCliente } = req.params;
-        const datos = await clientesServices.newCliente(rut, nombreCliente, direccion, giro, comuna, tipoCliente).then(JSON);
+        const { rut, nombre, direccion, comuna } = req.params;
+        const datos = await vendedorServices.newVendedor(rut, nombre, direccion, comuna).then(JSON);
         //Validamos que la consulta este correcta
         if(datos === true){
             res.status(200).json({

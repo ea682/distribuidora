@@ -3,8 +3,9 @@ import { NavLink, HashRouter, Route } from 'react-router-dom';
 import './form.css';
 
 import Cliente from './Cliente/Cliente';
-import Factura from '../Home/Factura';
-import Producto from '../Home/Producto';
+import ListClientes from './Cliente/ListCliente';
+import Factura from './Factura/Factura';
+import Producto from './Producto/Producto';
 import Home from '../Home/Home';
 
 class Main extends Component {
@@ -17,7 +18,7 @@ class Main extends Component {
                     <li>Cliente
                         <ul className="headerCliente">
                             <li><NavLink to="/newCliente">Nuevo Cliente</NavLink></li>
-                            <li><NavLink to="/listCliente">Listar Cliente</NavLink></li>
+                            <li><NavLink to="/ListCliente">Listar Cliente</NavLink></li>
                         </ul>
                     </li>
                     <li>Factura
@@ -41,6 +42,7 @@ class Main extends Component {
                 <div className="content">
                     <Route path="/home" component={Home}/>
                     <Route path="/newCliente" component={Cliente}/>
+                    <Route path="/listCliente" component={ListClientes}/>
                     <Route path="/producto" component={Producto}/>
                     <Route path="/newFactura" component={Factura}/>
                     

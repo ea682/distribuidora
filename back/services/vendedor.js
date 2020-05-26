@@ -1,10 +1,10 @@
 const { conn } = require('../lib/mariadb');
 
 
-class ClienteService{
-    getAllClientes(){
+class VendedorService{
+    getAllVendedor(){
         return new Promise(function (resolve, reject){
-            const query = "select * from cliente";
+            const query = "select * from vendedor";
 
             conn.query(query, (err, rows) => {
                 if(err) throw err;
@@ -13,9 +13,9 @@ class ClienteService{
         });
     }
 
-    newCliente(rut, nombreCliente, direccion, giro, comuna, tipoCliente){
+    newVendedor(rut, nombre, direccion, comuna){
         return new Promise(function (resolve, reject){
-            const query = `INSERT INTO cliente (rut, nombreCliente, direccion, giro, idComuna, idTipoCliente) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${giro}', '${comuna}', '${tipoCliente}');`;
+            const query = `INSERT INTO vendedor (rut, nombreVendedor, direccion, idComuna) VALUES ('${rut}', '${nombre}', '${direccion}', '${comuna}');`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err){
@@ -29,4 +29,4 @@ class ClienteService{
     }
 }
 
-module.exports = ClienteService;
+module.exports = VendedorService;

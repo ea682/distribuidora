@@ -15,19 +15,6 @@ class CompradoresService{
             });
         });
     }
-
-    getUser(email){
-        return new Promise(function (resolve, reject){
-            const query = "select * from users where Email = '"+email+"'";
-            console.log(query);
-            conn.query(query, (err,rows) => {
-                if(err) throw err;
-                //console.log(rows);
-                //var datos = 123;
-                return resolve(rows);
-            });
-        });
-    }
 }
 
 module.exports = CompradoresService;

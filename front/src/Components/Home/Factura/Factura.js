@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import api from '../config/Api';
+import api from '../../config/Api';
 
 class Factura extends React.Component{
   state = {};
@@ -8,10 +8,21 @@ class Factura extends React.Component{
   //Se ejecutan antes de renderizar el componente.
   componentDidMount(){
     //Validamos Token
+    this.llenarProductos();
+    this.llenarClientes();
+    this.llenarVendedores();
+    this.llenarPagos();
+    this.llenarFactura();
     
-    this.llenarClientes()
     //Agregamos los datos antes de montar el componente
     
+  }
+
+  //Al ocurrir cambios en los CBO este se guardan
+  change(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
 
   handleChange =(e)=>{
@@ -19,13 +30,23 @@ class Factura extends React.Component{
       [e.target.name]: e.target.value,
     })
   }
+
+  //Insertamos los datos.
   handleClick =(e)=>{
-    console.log('button was click')
-    console.log(this.state)
+    let datos = this.state;
+    console.log(datos);
+    axios.post(`${api}/api/factura/${datos.NumFactura}/${datos.tasa_ingreso}/${datos.fecha_documento}/${datos.fecha_vencimiento}/${datos.afecto}/${datos.excente}/${datos.iva}/${datos.total_pagar}/${datos.cboFactura}/${datos.tipo_moneda}/${datos.cboTipoPago}/${datos.cboCliente}/${datos.cboVendedor}`, {})
+    .then(res => {
+      console.log(res.data.message);
+      return res.data.message;
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
-   //Obtenemos los clientes y la agregamos al HTML
-   llenarClientes(){
-    axios.post(api+'/api/clientes', {
+  //Obtenemos los clientes y la agregamos al HTML
+  llenarClientes(){
+    axios.get(api+'/api/clientes', {
     }).then(res => {
       let datos = res.data.clientes;
 
@@ -48,12 +69,141 @@ class Factura extends React.Component{
         //const element = array[index];
         
       }
-      return res.data.regiones;
+      return res.data.clientes;
     })
     .catch(err => {
       console.log(err);
     });
-   }
+  }
+
+  //Obtenemos los productos y la agregamos al HTML
+  llenarProductos(){
+    axios.get(api+'/api/producto', {
+    }).then(res => {
+      let datos = res.data.producto;
+      console.log(datos);
+      let cboProductos = document.getElementById("cboProductos");
+
+      //Creamos la opcion seleccionar
+      let opt = document.createElement("option");
+      opt.value = 0;
+      opt.textContent = "Select...";
+      cboProductos.options.add(opt);
+
+      for (let i = 0; i < datos.length; i++) {
+        //Creamos elemento
+        opt = document.createElement("option");
+        //Le damos valor
+        opt.value = datos[i].id;
+        //Le damos el texto
+        opt.textContent = datos[i].nombreProducto;
+        cboProductos.options.add(opt);
+        //const element = array[index];
+        
+      }
+      return res.data.producto;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  //Obtenemos los Vendedores y la agregamos al HTML
+  llenarVendedores(){
+    axios.get(api+'/api/vendedor', {
+    }).then(res => {
+      let datos = res.data.vendedores;
+
+      let cboVendedores = document.getElementById("cboVendedores");
+
+      //Creamos la opcion seleccionar
+      let opt = document.createElement("option");
+      opt.value = 0;
+      opt.textContent = "Select...";
+      cboVendedores.options.add(opt);
+
+      for (let i = 0; i < datos.length; i++) {
+        //Creamos elemento
+        opt = document.createElement("option");
+        //Le damos valor
+        opt.value = datos[i].id;
+        //Le damos el texto
+        opt.textContent = datos[i].rut;
+        cboVendedores.options.add(opt);
+        //const element = array[index];
+        
+      }
+      return res.data.vendedores;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  //Obtenemos los Pagos y la agregamos al HTML
+  llenarPagos(){
+    axios.get(api+'/api/tipos/tipoPago', {
+    }).then(res => {
+      let datos = res.data.tipoPago;
+
+      let cboTipoPago = document.getElementById("cboTipoPago");
+
+      //Creamos la opcion seleccionar
+      let opt = document.createElement("option");
+      opt.value = 0;
+      opt.textContent = "Select...";
+      cboTipoPago.options.add(opt);
+
+      for (let i = 0; i < datos.length; i++) {
+        //Creamos elemento
+        opt = document.createElement("option");
+        //Le damos valor
+        opt.value = datos[i].id;
+        //Le damos el texto
+        opt.textContent = datos[i].nombreTipoPago;
+        cboTipoPago.options.add(opt);
+        //const element = array[index];
+        
+      }
+      return res.data.tipoPago;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  //Obtenemos los Factura y la agregamos al HTML
+  llenarFactura(){
+    axios.get(api+'/api/tipos/tipoFactura', {
+    }).then(res => {
+      let datos = res.data.tipoFactura;
+
+      let cboFactura = document.getElementById("cboFactura");
+
+      //Creamos la opcion seleccionar
+      let opt = document.createElement("option");
+      opt.value = 0;
+      opt.textContent = "Select...";
+      cboFactura.options.add(opt);
+
+      for (let i = 0; i < datos.length; i++) {
+        //Creamos elemento
+        opt = document.createElement("option");
+        //Le damos valor
+        opt.value = datos[i].id;
+        //Le damos el texto
+        opt.textContent = datos[i].nombreTipoFactura;
+        cboFactura.options.add(opt);
+        //const element = array[index];
+        
+      }
+      return res.data.tipoFactura;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
   render(){
     return(
       <div className="form-page">
@@ -65,26 +215,29 @@ class Factura extends React.Component{
             <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'NumFactura' value= {this.state.rut}  />
           </div>
           <div className = 'form-group'>
-            <label>cliente</label>
-            <select id='cboCliente' className = 'form-control' name = 'tipo_factura' value= {this.state.tipo_cliente}  >
+            <label>Clientes</label>
+            <select id='cboCliente' className = 'form-control' name = 'cboCliente' onChange={e => this.change(e)}>
             </select>
           </div>
           <div className = 'form-group'>
+            <label>Vendedores</label>
+            <select id='cboVendedores' className = 'form-control' name = 'cboVendedor' onChange={e => this.change(e)}>
+            </select>
+          </div>
+          <div className = 'form-group'>
+            <label>Productos</label>
+            <select id='cboProductos' className = 'form-control' name = 'cboProducto' onChange={e => this.change(e)}  >
+            </select>
+          </div>
+          
+          <div className = 'form-group'>
             <label>Tipo de factura</label>
-            <select id='Tipo_factura' className = 'form-control' name = 'tipo_factura' value= {this.state.tipo_cliente}  >
-            <option value="factura electronica">Factura electronica</option>
-            <option value="boleta electronica">Boleta electronica</option>
-            <option value="factura manual">Factura Manual</option>
-            <option value="boleta manual">Boleta Manual</option>
+            <select id='cboFactura' className = 'form-control' name='cboFactura' onChange={e => this.change(e)}  >
             </select>
           </div>
           <div className = 'form-group'>
             <label>Tipo de pago</label>
-            <select id='Tipo_Pago' className = 'form-control' name = 'tipo_factura' value= {this.state.tipo_cliente}  >
-            <option value="efectivo">Efectivo</option>
-            <option value="Cheque">Cheque</option>
-            <option value="factura manual">Factura Manual</option>
-            <option value="boleta manual">Boleta Manual</option>
+            <select id='cboTipoPago' className='form-control' name='cboTipoPago' onChange={e => this.change(e)}  >
             </select>
           </div>
           <div className = 'form-group'>
@@ -101,7 +254,7 @@ class Factura extends React.Component{
           </div>
           <div className = 'form-group'>
             <label>Fecha de vencimiento</label>
-            <input onChange = {this.handleChange} className= 'form-control' type = 'date' name = 'fecha?vencimiento' value= {this.state.ciudad}  />
+            <input onChange = {this.handleChange} className= 'form-control' type = 'date' name = 'fecha_vencimiento' value= {this.state.ciudad}  />
           </div>
           <div className = 'form-group'>
             <label>Afecto</label>
