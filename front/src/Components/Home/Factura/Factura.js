@@ -1,7 +1,19 @@
 import React from 'react';
+import axios from 'axios';
+import api from '../config/Api';
 
 class Factura extends React.Component{
   state = {};
+
+  //Se ejecutan antes de renderizar el componente.
+  componentDidMount(){
+    //Validamos Token
+    
+    this.llenarClientes()
+    //Agregamos los datos antes de montar el componente
+    
+  }
+
   handleChange =(e)=>{
     this.setState({
       [e.target.name]: e.target.value,
@@ -11,6 +23,37 @@ class Factura extends React.Component{
     console.log('button was click')
     console.log(this.state)
   }
+   //Obtenemos los clientes y la agregamos al HTML
+   llenarClientes(){
+    axios.post(api+'/api/clientes', {
+    }).then(res => {
+      let datos = res.data.clientes;
+
+      let cboClientes = document.getElementById("cboCliente");
+
+      //Creamos la opcion seleccionar
+      let opt = document.createElement("option");
+      opt.value = 0;
+      opt.textContent = "Select...";
+      cboClientes.options.add(opt);
+
+      for (let i = 0; i < datos.length; i++) {
+        //Creamos elemento
+        opt = document.createElement("option");
+        //Le damos valor
+        opt.value = datos[i].id;
+        //Le damos el texto
+        opt.textContent = datos[i].rut;
+        cboClientes.options.add(opt);
+        //const element = array[index];
+        
+      }
+      return res.data.regiones;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+   }
   render(){
     return(
       <div className="form-page">
@@ -20,6 +63,11 @@ class Factura extends React.Component{
           <div className = 'form-group'>
             <label>Numero de factura</label>
             <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'NumFactura' value= {this.state.rut}  />
+          </div>
+          <div className = 'form-group'>
+            <label>cliente</label>
+            <select id='cboCliente' className = 'form-control' name = 'tipo_factura' value= {this.state.tipo_cliente}  >
+            </select>
           </div>
           <div className = 'form-group'>
             <label>Tipo de factura</label>
@@ -32,7 +80,7 @@ class Factura extends React.Component{
           </div>
           <div className = 'form-group'>
             <label>Tipo de pago</label>
-            <select id='Tipo_factura' className = 'form-control' name = 'tipo_factura' value= {this.state.tipo_cliente}  >
+            <select id='Tipo_Pago' className = 'form-control' name = 'tipo_factura' value= {this.state.tipo_cliente}  >
             <option value="efectivo">Efectivo</option>
             <option value="Cheque">Cheque</option>
             <option value="factura manual">Factura Manual</option>

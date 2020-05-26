@@ -26,8 +26,16 @@ class Main extends Component {
                             <li><NavLink to="/listFactura">Listar Factura</NavLink></li>
                         </ul>
                     </li>
-                    <li><NavLink to="/producto">Contact</NavLink></li>
-                    <li><NavLink to="/factura">Contact</NavLink></li>
+                    <li>Producto
+                        <ul>
+                            <NavLink to="/producto">Nuevo Producto</NavLink>
+                        </ul>
+                    </li>
+                    <li>Vendedor
+                        <ul>
+                            <NavLink to="/factura">Contact</NavLink>
+                        </ul>
+                    </li>
                     
                 </ul>
                 <div className="content">
