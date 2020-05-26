@@ -24,7 +24,7 @@ class Cliente extends React.Component{
       [e.target.name]: e.target.value
     });
   }
-
+ 
   //Se ejecutan antes de renderizar el componente.
   componentDidMount(){
     //Validamos Token
