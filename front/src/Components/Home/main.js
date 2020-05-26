@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { HashRouter, Route } from 'react-router-dom';
 import {Navbar,Nav,NavDropdown} from 'react-bootstrap'; 
+import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 import './form.css';
 
 import Cliente from './Cliente/Cliente';
@@ -48,9 +49,10 @@ class Main extends Component {
                     <br></br>
                     <br></br>
                     <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
+                    < footer height = '50%' className = 'footer mt-auto py-3 bg-primary text-white border-bottom"'>
+                        < div  className = 'container' >Distribuidora Carne clc </div>
+                        < div  className = 'container' >Portal creado 2020 </div>
+                    </footer >
                 </div>
             </div>
         </HashRouter>

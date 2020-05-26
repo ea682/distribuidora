@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "boostrap": "^2.0.0",
     "bootstrap": "^4.4.1",
+    "mdbreact": "^4.27.0",
     "nodemon": "^2.0.3",
     "react": "^16.13.0",
     "react-background-slideshow": "^1.0.4",
