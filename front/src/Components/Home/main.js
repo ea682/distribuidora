@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavLink, HashRouter, Route } from 'react-router-dom';
+import {Navbar,Nav,NavDropdown} from 'react-bootstrap'; 
 import './form.css';
 
 import Cliente from './Cliente/Cliente';
@@ -13,38 +14,34 @@ class Main extends Component {
     return (
         <HashRouter>
             <div>
-                <ul className="header">
-                    <li><NavLink to="/home">Home</NavLink></li>
-                    <li>Cliente
-                        <ul className="headerCliente">
-                            <li><NavLink to="/newCliente">Nuevo Cliente</NavLink></li>
-                            <li><NavLink to="/listCliente">Listar Cliente</NavLink></li>
-                        </ul>
-                    </li>
-                    <li>Factura
-                        <ul className="headerFactura">
-                            <li><NavLink to="/newFactura">Nueva Factura</NavLink></li>
-                            <li><NavLink to="/listFactura">Listar Factura</NavLink></li>
-                        </ul>
-                    </li>
-                    <li>Producto
-                        <ul>
-                            <li><NavLink to="/producto">Nuevo Producto</NavLink></li>
-                        </ul>
-                    </li>
-                    <li>Vendedor
-                        <ul>
-                            <li><NavLink to="/vendedor">Nuevo Vendedor</NavLink></li>
-                        </ul>
-                    </li>
-                    
-                </ul>
+            <Navbar bg="dark" variant="dark">
+                <Navbar.Brand>Distribuidora</Navbar.Brand>
+                <Nav className="mr-auto">
+                <Nav.Link href="#home">Home</Nav.Link>
+                <NavDropdown title="Cliente" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#/newCliente">Nuevo Cliente</NavDropdown.Item>
+                <NavDropdown.Item href="#/listCliente">Listar Cliente</NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown title="Factura" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#/newFactura">Nueva Factura</NavDropdown.Item>
+                <NavDropdown.Item href="#/listFactura">Listar Factura</NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown title="Producto" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#/producto">Nuevo Producto</NavDropdown.Item>
+                <NavDropdown.Item href="#/">Listar Producto</NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown title="Vendedor" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#/newVendedor">Nuevo Vendedor</NavDropdown.Item>
+                <NavDropdown.Item href="#/">Listar Vendedor</NavDropdown.Item>
+                </NavDropdown>
+                </Nav>
+            </Navbar>
                 <div className="content">
                     <Route path="/home" component={Home}/>
                     <Route path="/newCliente" component={Cliente}/>
                     <Route path="/producto" component={Producto}/>
                     <Route path="/newFactura" component={Factura}/>
-                    <Route path="/vendedor" component={Vendedor}/>
+                    <Route path="/newVendedor" component={Vendedor}/>
                     
                 </div>
                 <div className="footer-page">
