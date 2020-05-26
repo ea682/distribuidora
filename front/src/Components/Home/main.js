@@ -3,8 +3,9 @@ import { NavLink, HashRouter, Route } from 'react-router-dom';
 import './form.css';
 
 import Cliente from './Cliente/Cliente';
-import Factura from '../Home/Factura';
-import Producto from '../Home/Producto';
+import Factura from './Factura/Factura';
+import Producto from './Producto/Producto';
+import Vendedor from './Vendedor/Vendedor';
 import Home from '../Home/Home';
 
 class Main extends Component {
@@ -28,12 +29,12 @@ class Main extends Component {
                     </li>
                     <li>Producto
                         <ul>
-                            <NavLink to="/producto">Nuevo Producto</NavLink>
+                            <li><NavLink to="/producto">Nuevo Producto</NavLink></li>
                         </ul>
                     </li>
                     <li>Vendedor
                         <ul>
-                            <NavLink to="/factura">Contact</NavLink>
+                            <li><NavLink to="/vendedor">Nuevo Vendedor</NavLink></li>
                         </ul>
                     </li>
                     
@@ -43,6 +44,7 @@ class Main extends Component {
                     <Route path="/newCliente" component={Cliente}/>
                     <Route path="/producto" component={Producto}/>
                     <Route path="/newFactura" component={Factura}/>
+                    <Route path="/vendedor" component={Vendedor}/>
                     
                 </div>
                 <div className="footer-page">

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import api from '../config/Api';
+import api from '../../config/Api';
 
 class Factura extends React.Component{
   state = {};
