@@ -16,12 +16,13 @@ class App extends React.Component {
       <BrowserRouter>
         <Switch>
           
+        
+        <Route path={'/login'} exact component={Login} />
+        <Route path={'/register'} exact component={Registro} />
         <Route path={'/main'} component={main} />
-          <Route path={'/login'} exact component={Login} />
-          <Route path={'/register'} exact component={Registro} />
-          <AuthComponent>
-            <Route path={'/protected'} component={Protected} />
-          </AuthComponent>
+        <AuthComponent>
+          <Route path={'/protected'} component={Protected} />
+        </AuthComponent>
           
         </Switch>
       </BrowserRouter>

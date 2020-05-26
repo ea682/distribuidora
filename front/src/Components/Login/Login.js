@@ -9,9 +9,6 @@ import BackgroundSlideshow from 'react-background-slideshow';
 import image1 from './img/1.jpg';
 import image2 from './img/2.jpg';
 import image3 from './img/3.jpg';
-/*import image4 from './img/4.jpg';
-import image5 from './img/5.jpg';
-import image6 from './img/6.jpg';*/
 
 class Login extends Component {
   constructor(props) {
@@ -23,7 +20,7 @@ class Login extends Component {
     };
 
     this.change = this.change.bind(this);
-    this.submit = this.submit.bind(this);
+    //this.submit = this.submit.bind(this);
     
     
   }
@@ -33,8 +30,8 @@ class Login extends Component {
       [e.target.name]: e.target.value
     });
   }
-  
-  submit(e) {
+  handleClick =(e)=>{
+  //submit(e) {
     
     e.preventDefault();
 
@@ -43,9 +40,19 @@ class Login extends Component {
       password : this.state.password
     }).then(res => {
 
-      console.log();
-      localStorage.setItem('cool-jwt', res.data.access_token);
-      this.props.history.push('/Protected');
+      //Validamos que el JSON tenga un token.
+      if(res.data.access_token === 'Invalid'){
+
+        //Hacemos focus en los datos incorrectos
+        document.getElementsByName("email")[0].style.borderColor = "Red";
+        document.getElementsByName("password")[0].style.borderColor = "Red"
+      }
+      else{
+        localStorage.setItem('cool-jwt', res.data.access_token);
+        this.props.history.push('/Protected');
+      }
+      console.log(res.data);
+      
       
     })
     .catch(err => {
@@ -55,10 +62,10 @@ class Login extends Component {
 
   render() {
     return (
-      <div class="container">    
-          <div class="row justify-content-center">
-            <div class="col-6">
-              <div class="containerLogin">
+      <div className="container">    
+          <div className="row justify-content-center">
+            <div className="col-6">
+              <div className="containerLogin">
                 <div>
                   
                   <br></br>
@@ -67,16 +74,15 @@ class Login extends Component {
                 </div>
                 <form onSubmit={e => this.submit(e)}>
                   <div className = 'form-group'>
-                    
-                    <label>email</label>
+                    <label>Email</label>
                     <input type="text" className= 'form-control' name="email" onChange={e => this.change(e)} value={this.state.email} />
                   </div>
                   <div className = 'form-group'>
-                    <label>password</label>
+                    <label>Password</label>
                     <input type="password" className= 'form-control' name="password" onChange={e => this.change(e)}value={this.state.password} />
                   </div>
                   <div className = 'form-group'>
-                    <button type="submit" className="btn btn-primary btn-lg btn-block">Ingresar</button>
+                    <button type="submit" onClick ={this.handleClick} className="btn btn-primary btn-lg btn-block">Ingresar</button>
                   </div>
                 </form>
                 <div>

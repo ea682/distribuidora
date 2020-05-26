@@ -34,7 +34,7 @@ router.post("/comunas/:idProvincia", async function(req, res, next) {
         const { idProvincia } = req.params;
         const datos = await localizacionServices.getAllComunas(idProvincia).then(JSON);
         res.status(200).json({
-            provincias: datos,
+            comunas: datos,
         });
     } catch (error) {
         next(error);

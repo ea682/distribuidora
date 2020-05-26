@@ -54,8 +54,7 @@ api.post("/", async function(req, res, next) {
           if(re){
             req.login(user, { session: false }, async function(error) {
               if (error) {
-                next(error);
-                
+                return res.status(200).json({ access_token: 'Invalid' });
               }
               
               const payload = { user: getUser, email: getEmail};
@@ -68,20 +67,49 @@ api.post("/", async function(req, res, next) {
           }
           else{
             //Retornamos claves invalidas
-            return res.status(200).json({ result: 'Invalid' });
+            return res.status(200).json({ access_token: 'Invalid' });
           }
-        });
-
-        //Ejecutamos las prmoresas
-        resultComparacion
-      });
-
-      datos
+        })
+        .catch(err => {
+          //Ejecutamos las prmoresas
+          resultComparacion
+          return res.status(200).json({ access_token: 'Invalid' });
+        })        
+      })
+      .catch(err => {
+        datos
+        return res.status(200).json({ access_token: 'Invalid' });
+      })
+      
 
     } catch (error) {
-      next(error);
+      return res.status(200).json({ access_token: 'Invalid' });
     }
   })(req, res, next);
+});
+
+api.post("/:token", async function(req, res, err) {
+  const { token } = req.params;
+  //Validamos que tenga datos.
+  if(token){
+    try {
+      //Ejecutamos la funcion que valida los token.
+      jwt.verify(token, config.authJwtSecret,function(err, val){
+        if(err){
+          //El token no es valido
+          return res.status(200).json({ error: 'Invalid Token' });
+        }else{
+          //El token esta OK
+          return res.status(200).json({ access_token: true });
+        }
+        });
+    } catch (error) {
+      console.log(123);
+    }
+
+  }else{
+    return res.status(200).json({ messaje: 'Invalid' });
+  }
 });
 
 module.exports = api;

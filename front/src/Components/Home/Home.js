@@ -5,6 +5,7 @@ function Home() {
     <div>
       <h2>HELLO</h2>
       <p>Hola Mundo!</p>
+      <p>{localStorage.getItem('cool-jwt')}</p>
     </div>
   );
 }
