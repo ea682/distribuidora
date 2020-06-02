@@ -13,9 +13,9 @@ class VendedorService{
         });
     }
 
-    newVendedor(rut, nombre, direccion, comuna){
+    newVendedor(rut, nombre, direccion, comision, comuna){
         return new Promise(function (resolve, reject){
-            const query = `INSERT INTO vendedor (rut, nombreVendedor, direccion, idComuna) VALUES ('${rut}', '${nombre}', '${direccion}', '${comuna}');`;
+            const query = `INSERT INTO vendedor (rut, nombreVendedor, direccion, comision, idComuna) VALUES ('${rut}', '${nombre}', '${direccion}', '${comision}', '${comuna}');`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err){

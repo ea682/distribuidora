@@ -13,13 +13,23 @@ class ClienteService{
         });
     }
 
-    newCliente(rut, nombreCliente, direccion, giro, comuna, tipoCliente){
+    getAllClientesTabla(){
         return new Promise(function (resolve, reject){
-            const query = `INSERT INTO cliente (rut, nombreCliente, direccion, giro, idComuna, idTipoCliente) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${giro}', '${comuna}', '${tipoCliente}');`;
+            const query = "SELECT cli.id, cli.rut, cli.nombreCliente, cli.direccion, cli.telefono, cli.giro, v.nombreVendedor FROM cliente AS cli INNER JOIN vendedor AS v ON cli.idVendedor = v.id";
+
+            conn.query(query, (err, rows) => {
+                if(err) throw err;
+                return resolve(rows)
+            })
+        });
+    }
+
+    newCliente(rut, nombreCliente, direccion, telefono, giro, comuna, idVendedor){
+        return new Promise(function (resolve, reject){
+            const query = `INSERT INTO cliente (rut, nombreCliente, direccion, telefono, giro, idComuna, idVendedor) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${telefono}', '${giro}', '${comuna}', '${idVendedor}');`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err){
-                    console.log(err);
                     return resolve(err);
                 }else{
                     return resolve(true);

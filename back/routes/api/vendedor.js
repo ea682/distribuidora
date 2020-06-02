@@ -18,10 +18,10 @@ router.get("/", async function(req, res, next) {
     }
 });
 
-router.post("/:rut/:nombre/:direccion/:comuna", async function(req, res, next) {
+router.post("/:rut/:nombre/:direccion/:comision/:comuna", async function(req, res, next) {
     try {
-        const { rut, nombre, direccion, comuna } = req.params;
-        const datos = await vendedorServices.newVendedor(rut, nombre, direccion, comuna).then(JSON);
+        const { rut, nombre, direccion, comision, comuna } = req.params;
+        const datos = await vendedorServices.newVendedor(rut, nombre, direccion, comision, comuna).then(JSON);
         //Validamos que la consulta este correcta
         if(datos === true){
             res.status(200).json({
