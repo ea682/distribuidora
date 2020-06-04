@@ -1,21 +1,33 @@
-// ES6
-import React, { Component } from "react";
-import { Datatable } from "@o2xp/react-datatable";
-import { CallSplit as CallSplitIcon} from "@material-ui/icons";
-import { chunk } from "lodash";
-import axios from 'axios';
+import React from "react";
 import api from '../../config/Api';
+// import "react-tabulator/lib/styles.css"; // default theme
+import "react-tabulator/lib/css/bootstrap/tabulator_bootstrap.min.css"; // use Theme(s)
+import { React15Tabulator } from "react-tabulator"; // for React 15.x
+import './clientes.css';
 
-function llenarTabla2(){
-    axios.get(api+'/api/clientes/getTablaCliente', {
-    }).then(res => {
-        //Obtenemos los datos.
-        let datos = res.data.clientes;
-        //Creamos una variable para guardarlos
+
+
+
+class ListClientes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { data: ''}
+  }
+
+  //Cargamos los datos de la tabla.
+  componentDidMount(){
+    
+    fetch(api+'/api/clientes/getTablaCliente')
+      .then((response) => {
+        return response.json()
+      })
+      .then((datos) => {
+        datos = datos.clientes;
         let row = [];
         for (let i = 0; i < datos.length; i++) {
             //Guardamos los datos en un array
-            row.push({
+            row.push({ 
+                id: datos[i]['id'],
                 rut: datos[i]['rut'],
                 nombreCliente: datos[i]['nombreCliente'],
                 direccion: datos[i]['direccion'],
@@ -24,275 +36,50 @@ function llenarTabla2(){
                 nombreVendedor: datos[i]['nombreVendedor']
             });
         }
-        return row;
-        //return Object.assign({}, row);
-        
-    })
-    .catch(err => {
-    console.log(err);
-    });
-}
-
-const datos2 = {llenarTabla2};
-// Advanced Example
-const options2 = {
-  title: "My super datatable",
-  dimensions: {
-    datatable: {
-      width: "100%",
-      height: "40%"
-    },
-    row: {
-      height: "5%"
-    }
-  },
-  keyColumn: "id",
-  font: "Arial",
-  data: {
-    columns: [
-      {
-        id: "rut",
-        label: "rut",
-        colSize: "100px",
-        editable: true,
-        dataType: "text",
-        inputType: "input"
-      },
-      {
-        id: "nombreCliente",
-        label: "nombreCliente",
-        colSize: "100px",
-        editable: true,
-        dataType: "text",
-        inputType: "input"
-      },
-      {
-        id: "direccion",
-        label: "direccion",
-        colSize: "50px",
-        editable: true,
-        dataType: "text",
-        inputType: "input"
-      },
-      {
-        id: "telefono",
-        label: "telefono",
-        colSize: "120px",
-        editable: true,
-        dataType: "text",
-        inputType: "input"
-      },
-      {
-        id: "giro",
-        label: "giro",
-        colSize: "100px",
-        editable: true,
-        inputType: "input"
-      },
-      {
-        id: "nombreVendedor",
-        label: "nombreVendedor",
-        colSize: "150px",
-        editable: true,
-        inputType: "input"
-      }
-    ],
-    rows: {llenarTabla2},
-  },
-  features: {
-    canEdit: true,
-    canDelete: true,
-    canDownload: true,
-    canSearch: true,
-    canRefreshRows: true,
-    canOrderColumns: true,
-    userConfiguration: {
-      columnsOrder: ["rut", "nombreCliente", "direccion", "telefono", "giro", "nombreVendedor"],
-      copyToClipboard: true
-    },
-    rowsPerPage: {
-      available: [10, 25, 50, 100],
-      selected: 50
-    },
-    selectionIcons: [
-      {
-        title: "Selected Rows",
-        icon: <CallSplitIcon color="primary" />,
-        onClick: rows => console.log(rows)
-      }
-    ]
-  }
-};
-
-class ListCLiente extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            datos : '',
-            options : ''
-        };
-        
-    }
-
-
-    componentDidMount(){
-        
-        this.llenarTabla();
-    }
-
-    componentWillUnmount(){
-        
-    }
-
-    llenarTabla(){
-        axios.get(api+'/api/clientes/getTablaCliente', {
-        }).then(res => {
-            //Obtenemos los datos.
-            let datos = res.data.clientes;
-            //Creamos una variable para guardarlos
-            let row = [];
-            for (let i = 0; i < datos.length; i++) {
-                //Guardamos los datos en un array
-                row.push({
-                    rut: datos[i]['rut'],
-                    nombreCliente: datos[i]['nombreCliente'],
-                    direccion: datos[i]['direccion'],
-                    telefono: datos[i]['telefono'],
-                    giro: datos[i]['giro'],
-                    nombreVendedor: datos[i]['nombreVendedor']
-                });
-            }
-            this.llenarDatosTabla(row);
-            
-        })
-        .catch(err => {
-        console.log(err);
-        });
-    }
-
-    llenarDatosTabla(row){
-        let options = {
-            title: "My super datatable",
-            dimensions: {
-              datatable: {
-                width: "100%",
-                height: "40%"
-              },
-              row: {
-                height: "5%"
-              }
-            },
-            keyColumn: "id",
-            font: "Arial",
-            data: {
-              columns: [
-                {
-                  id: "rut",
-                  label: "rut",
-                  colSize: "100px",
-                  editable: true,
-                  dataType: "text",
-                  inputType: "input"
-                },
-                {
-                  id: "nombreCliente",
-                  label: "nombreCliente",
-                  colSize: "100px",
-                  editable: true,
-                  dataType: "text",
-                  inputType: "input"
-                },
-                {
-                  id: "direccion",
-                  label: "direccion",
-                  colSize: "50px",
-                  editable: true,
-                  dataType: "text",
-                  inputType: "input"
-                },
-                {
-                  id: "telefono",
-                  label: "telefono",
-                  colSize: "120px",
-                  editable: true,
-                  dataType: "text",
-                  inputType: "input"
-                },
-                {
-                  id: "giro",
-                  label: "giro",
-                  colSize: "100px",
-                  editable: true,
-                  inputType: "input"
-                },
-                {
-                  id: "nombreVendedor",
-                  label: "nombreVendedor",
-                  colSize: "150px",
-                  editable: true,
-                  inputType: "input"
-                }
-              ],
-              rows: row,
-            },
-            features: {
-              canEdit: true,
-              canDelete: true,
-              canDownload: true,
-              canSearch: true,
-              canRefreshRows: true,
-              canOrderColumns: true,
-              userConfiguration: {
-                columnsOrder: ["rut", "nombreCliente", "direccion", "telefono", "giro", "nombreVendedor"],
-                copyToClipboard: true
-              },
-              rowsPerPage: {
-                available: [10, 25, 50, 100],
-                selected: 50
-              },
-              selectionIcons: [
-                {
-                  title: "Selected Rows",
-                  icon: <CallSplitIcon color="primary" />,
-                  onClick: rows => console.log(rows)
-                }
-              ]
-            }
-        };
-        this.setState({options : options});
-    }
-
-
-    actionsRow = ({ type, payload }) => {
-        console.log(type);
-        console.log(payload);
-    };
-
-    refreshRows = () => {
-        const rows = this.state.options.data.rows;
-        const randomRows = rows.length;
-        const randomTime = Math.floor(Math.random() * 4000) + 1000;
-        const randomResolve = Math.floor(Math.random() * 10) + 1;
-        return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (randomResolve > 3) {
-            resolve(chunk(rows, randomRows)[0]);
-            }
-            reject(new Error("err"));
-        }, randomTime);
-        });
-    };
+        this.setState({ data: row })
+      });
     
+  }
   render() {
-    console.log(this.state.options);
+    //Agregamos las columnas a la tabla.
+    const columns = [
+      { title: "Acciones", field: "id", width: "15%", align:"center", formatter:function(cell){
+        let value = cell.getValue();
+        console.log(value);
+        return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
+      }},
+      { title: "RUT", field: "rut", color: "red", editor:true},
+      { title: "Nombre Cliente", field: "nombreCliente", editor:true},
+      { title: "Direccion", field: "direccion", editor:true},
+      { title: "Telefono", field: "telefono", editor:true},
+      { title: "Giro", field: "giro", editor:true},
+      { title: "Nombre Vendedor", field: "nombreVendedor", editor:true}
+    ];
+    //Opciones de data table
+    const options = {
+      layout:"fitColumns",
+      pagination:"local",
+      paginationSize:10,
+      movableColumns:true,
+      responsiveLayout:"hide",
+      persistence:{
+        sort:true,
+        filter:true,
+        columns:true,
+      },
+      persistenceID:"dataSave"
+    };
     return (
-      <Datatable
-        options={this.state.options}
-        refreshRows={this.refreshRows}
-        actions={this.actionsRow}
-      />
+      <div>
+        <div>
+          <div>
+            <button id="print-table">Print Table</button>
+        </div>
+        </div>
+        <React15Tabulator columns={columns} data={this.state.data} options={options}/>
+      </div>
     );
   }
 }
 
-export default ListCLiente;
+export default ListClientes;

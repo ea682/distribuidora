@@ -1,0 +1,22 @@
+-El cliente estara enlazado al vendedor.
+vendedor puede tener muchos clientes y el cliente solo puede tener un vendedor
+-Exento de IVA, no va.
+-vendedor agregar el % comision.
+-Tipo cliente, no va.
+-Agregar telefono al cliente.
+-Tipo moneda no va
+
+
+Falta
+-Agregar tipo de pago en cliente
+
+Se agrega a detalle factura
+-Afecto es el total sin IVA, valor neto.
+-IVA 19%, el IVA se puede editar.
+
+//Factura
+-Poder cambiar nombre
+
+//Agregar
+-nota de credito
+
