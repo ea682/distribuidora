@@ -18,10 +18,10 @@ router.get("/", async function(req, res, next) {
     }
 });
 
-router.post("/:nombre/:precio", async function(req, res, next) {
+router.post("/:codigo/:nombre/:precio/:detalle", async function(req, res, next) {
     try {
-        const { nombre, precio } = req.params;
-        const datos = await productoServices.newProducto(nombre, precio).then(JSON);
+        const { codigo, nombre, precio, detalle } = req.params;
+        const datos = await productoServices.newProducto(codigo, nombre, precio, detalle).then(JSON);
         //Validamos que la consulta este correcta
         if(datos === true){
             res.status(200).json({

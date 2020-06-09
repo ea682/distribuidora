@@ -9,6 +9,8 @@ vendedor puede tener muchos clientes y el cliente solo puede tener un vendedor
 
 Falta
 -Agregar tipo de pago en cliente
+Tarjeta credito
+Efectivo
 
 Se agrega a detalle factura
 -Afecto es el total sin IVA, valor neto.
@@ -20,3 +22,11 @@ Se agrega a detalle factura
 //Agregar
 -nota de credito
 
+
+//Cambios 08/06/2020
+//Significado
+Total line = total bruto dela Factura
+
+
+//Cambio React
+El precio unitario del producto se puede editar junto con el IVA

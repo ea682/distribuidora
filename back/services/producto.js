@@ -13,9 +13,9 @@ class ProductoService{
         });
     }
 
-    newProducto(nombre, precio){
+    newProducto(codigo, nombre, precio, detalle){
         return new Promise(function (resolve, reject){
-            const query = `INSERT INTO producto (nombreProducto, precioUnitario) VALUES ('${nombre}', '${precio}');`;
+            const query = `INSERT INTO producto (codigo, nombreProducto, precioUnitario, descripcion) VALUES ('${codigo}','${nombre}', '${precio}', '${detalle}');`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err){

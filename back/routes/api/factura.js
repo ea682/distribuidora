@@ -18,13 +18,13 @@ router.get("/", async function(req, res, next) {
     }
 });
 
-router.post("/:numeroFactura/:tasaIngreso/:fechaDocumento/:fechaVencimiento/:afecto/:excedente/:iva/:totalPagar/:idTipoFactura/:idTipoMoneda/:idTipoPago/:idCliente/:idVendedor", async function(req, res, next) {
+router.post("/:numeroFactura/:detalle/:tipoFactura/:tipoPago/:fechaDocumento/:fechaVencimiento/:cliente/:datos/:iva", async function(req, res, next) {
     try {
-        const { numeroFactura, tasaIngreso, fechaDocumento, fechaVencimiento, afecto, excedente, iva, totalPagar, idTipoFactura, idTipoMoneda, idTipoPago, idCliente, idVendedor } = req.params;
+        const { numeroFactura, detalle, tipoFactura, tipoPago, fechaDocumento, fechaVencimiento, cliente, datos, iva } = req.params;
         
-        const datos = await facturaServices.newFactura(numeroFactura, tasaIngreso, fechaDocumento, fechaVencimiento, afecto, excedente, iva, totalPagar, idTipoFactura, idTipoMoneda, idTipoPago, idCliente, idVendedor).then(JSON);
+        const datosFactura = await facturaServices.newFactura(numeroFactura, fechaDocumento, fechaVencimiento, tipoFactura, tipoPago, cliente, iva, detalle, datos).then(JSON);
         //Validamos que la consulta este correcta
-        if(datos === true){
+        if(datosFactura === true){
             res.status(200).json({
                 messaje: true,
             });

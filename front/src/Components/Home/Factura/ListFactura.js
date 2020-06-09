@@ -1,13 +1,12 @@
 import React from "react";
 import api from '../../config/Api';
-// import "react-tabulator/lib/styles.css"; // default theme
-import "react-tabulator/lib/css/bootstrap/tabulator_bootstrap.min.css"; // use Theme(s)
-import { React15Tabulator } from "react-tabulator"; // for React 15.x
+import "react-tabulator/lib/css/bootstrap/tabulator_bootstrap.min.css";
+import { React15Tabulator } from "react-tabulator";
 
 
 
 
-class ListProducto extends React.Component {
+class ListaFactura extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data: ''}
@@ -16,19 +15,32 @@ class ListProducto extends React.Component {
   //Cargamos los datos de la tabla.
   componentDidMount(){
     
-    fetch(api+'/api/producto')
+    fetch(api+'/api/factura')
       .then((response) => {
         return response.json()
       })
       .then((datos) => {
-        datos = datos.producto;
+        datos = datos.factura;
         let row = [];
         for (let i = 0; i < datos.length; i++) {
             //Guardamos los datos en un array
             row.push({ 
                 id: datos[i]['id'],
-                nombreProducto: datos[i]['nombreProducto'],
-                precioUnitario: datos[i]['precioUnitario']
+                rut: datos[i]['rut'],
+                nombreCliente: datos[i]['nombreCliente'],
+                direccion: datos[i]['direccion'],
+                giro: datos[i]['giro'],
+                rutVendedor: datos[i]['rutVendedor'],
+                telefono: datos[i]['telefono'],
+                nombreTipoFactura: datos[i]['nombreTipoFactura'],
+                nFactura: datos[i]['nFactura'],
+                fechaDocumento: datos[i]['fechaDocumento'],
+                codigo: datos[i]['codigo'],
+                descripcion: datos[i]['descripcion'],
+                cantidad: datos[i]['cantidad'],
+                precioUnitario: datos[i]['precioUnitario'],
+                totalUnitario: datos[i]['totalUnitario'],
+                totalNeto: datos[i]['totalNeto']
             });
         }
         this.setState({ data: row })
@@ -43,8 +55,21 @@ class ListProducto extends React.Component {
         console.log(value);
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "nombreProducto", field: "nombreProducto", width: "40%", color: "red", editor:true},
-      { title: "Precio Unidad", field: "precioUnitario", width: "40%", editor:true}
+      { title: "RUT", field: "rut", width: "9%", editor:true},
+      { title: "Nombre Cliente", field: "nombreCliente", width: "15%", editor:true},
+      { title: "Direccion Cliente", field: "direccion", width: "15%", editor:true},
+      { title: "GIRO", field: "giro", width: "7%", editor:true},
+      { title: "Codigo Vendedor", field: "rutVendedor", width: "7%", editor:true},
+      { title: "Telefono", field: "telefono", width: "10%", editor:true},
+      { title: "Nombre DOC", field: "nombreTipoFactura", width: "10%", editor:true},
+      { title: "Numero DOC", field: "nFactura", width: "10%", editor:true},
+      { title: "Fecha Documento", field: "fechaDocumento", width: "10%", editor:true},
+      { title: "COD. Producto", field: "codigo", width: "10%", editor:true},
+      { title: "Desc. Producto", field: "descripcion", width: "10%", editor:true},
+      { title: "Cantidad", field: "cantidad", width: "8%", editor:true},
+      { title: "Precio Unitario", field: "precioUnitario", width: "10%", editor:true},
+      { title: "Total Linea", field: "precioUnitario", width: "10%", editor:true},
+      { title: "Total Documento", field: "totalNeto", width: "10%", editor:true}
     ];
     //Opciones de data table
     const options = {
@@ -73,4 +98,4 @@ class ListProducto extends React.Component {
   }
 }
 
-export default ListProducto;
+export default ListaFactura;
