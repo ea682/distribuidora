@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import api from '../../config/Api';
+import '../form.css';
 
 class Vendedor extends React.Component{
   state = {};
@@ -9,6 +10,71 @@ class Vendedor extends React.Component{
       [e.target.name]: e.target.value,
     })
   }
+
+  //Eliminamos los elementos emergentes
+  deleteElement(id){
+    let cantidadElementos = document.getElementsByClassName("divMsj");
+    setTimeout(function() {
+      for (let i = 0; i < cantidadElementos.length; i++) {
+        let elementoContent = document.getElementsByClassName("divMsj")[i];
+        try {
+          elementoContent.parentNode.removeChild(elementoContent);
+        } catch (error) {
+          
+        }
+      }
+      
+    }, 5000);
+    
+    
+    //divDelete.removeChild(divDelete[]);
+  }
+
+  resultOK(){
+    //Obtenemos el elemento al cual le agregaremos la validacion.
+    let elementoContent = document.getElementById('nuevoVendedor');
+
+    //Creamos el elemento y le damos las propiedades.
+    let addDiv = document.createElement("div");
+    addDiv.className = "divOK divMsj";
+    addDiv.id = "elementoDesplegado";
+    addDiv.innerHTML += "<label>Se creo nuevo vendedor</label>";
+    
+    
+    elementoContent.appendChild(addDiv);
+    this.deleteElement("elementoDesplegado");
+  }
+
+  resultCreado(){
+    //Obtenemos el elemento al cual le agregaremos la validacion.
+    let elementoContent = document.getElementById('nuevoVendedor');
+
+    //Creamos el elemento y le damos las propiedades.
+    let addDiv = document.createElement("div");
+    addDiv.className = "divRep divMsj";
+    addDiv.id = "elementoDesplegado";
+    addDiv.innerHTML += "<label>El vendedor ya existe</label>";
+    
+    
+    elementoContent.appendChild(addDiv);
+    this.deleteElement("elementoDesplegado");
+  }
+
+  resultError(){
+    //Obtenemos el elemento al cual le agregaremos la validacion.
+    let elementoContent = document.getElementById('nuevoVendedor');
+
+    //Creamos el elemento y le damos las propiedades.
+    let addDiv = document.createElement("div");
+    addDiv.className = "divError divMsj";
+    addDiv.id = "elementoDesplegado";
+    addDiv.innerHTML += "<label>Error para crear Vendedor</label>";
+    
+    
+    elementoContent.appendChild(addDiv);
+    this.deleteElement("elementoDesplegado");
+  }
+
   handleClick =(e)=>{
     let datosCliente = this.state;
     axios.post(`${api}/api/vendedor/${datosCliente.rut}/${datosCliente.nombre}/${datosCliente.direccion}/${datosCliente.comision}/${datosCliente.comuna}`, {})
@@ -18,23 +84,28 @@ class Vendedor extends React.Component{
 
       //Valimos el resultado de la consulta.
       if(result != false){
-        alert("Datos ingresados");
+        try {
+          this.resultOK();
+        } catch (error) {
+          this.resultError();
+        }
+        
       }else{
-        alert("El Vendedor ya fue ingresado");
+        this.resultCreado();
       }
     })
     .catch(err => {
-      alert('Error al procesar la solicitudad');
+      this.resultError();
     });
   }
   render(){
     return(
-      <div>
+      <div id='nuevoVendedor' className="form-page">
         <h1> Nuevo Vendedor</h1>
 
         <form>
-          <div className = 'form-group'>
-            <label>Rut</label>
+          <div className='form-group'>
+            <label>codigo</label>
             <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'rut' value= {this.state.rut}  />
           </div>
           <div className = 'form-group'>

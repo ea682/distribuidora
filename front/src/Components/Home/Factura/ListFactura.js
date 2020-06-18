@@ -68,7 +68,7 @@ class ListaFactura extends React.Component {
       { title: "Desc. Producto", field: "descripcion", width: "10%", editor:true},
       { title: "Cantidad", field: "cantidad", width: "8%", editor:true},
       { title: "Precio Unitario", field: "precioUnitario", width: "10%", editor:true},
-      { title: "Total Linea", field: "precioUnitario", width: "10%", editor:true},
+      { title: "Total Linea", field: "totalUnitario", width: "10%", editor:true},
       { title: "Total Documento", field: "totalNeto", width: "10%", editor:true}
     ];
     //Opciones de data table

@@ -27,7 +27,7 @@ class ListVendedor extends React.Component {
             //Guardamos los datos en un array
             row.push({ 
                 id: datos[i]['id'],
-                rut: datos[i]['rut'],
+                codigo: datos[i]['codigo'],
                 nombreVendedor: datos[i]['nombreVendedor'],
                 direccion: datos[i]['direccion'],
                 comision: datos[i]['comision']
@@ -45,7 +45,7 @@ class ListVendedor extends React.Component {
         console.log(value);
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "RUT", field: "rut", width: "20%", color: "red", editor:true},
+      { title: "Codigo", field: "codigo", width: "20%", color: "red", editor:true},
       { title: "Nombre Vendedor", width: "20%", field: "nombreVendedor", editor:true},
       { title: "Direccion", field: "direccion", width: "20%", editor:true},
       { title: "Comision", field: "comision", width: "20%", editor:true}

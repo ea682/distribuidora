@@ -13,7 +13,7 @@ class Vendedor extends React.Component{
   handleClick =(e)=>{
     let datos = this.state;
     console.log(datos);
-    axios.post(`${api}/api/producto/${datos.codigo}/${datos.nombreProducto}/${datos.precioUni}/${datos.detalle}`, {})
+    axios.post(`${api}/api/producto/${datos.codigo}/${datos.nombreProducto}/${datos.detalle}`, {})
     .then(res => {
       console.log(res.data.message);
       return res.data.message;
@@ -24,7 +24,7 @@ class Vendedor extends React.Component{
   }
   render(){
     return(
-      <div>
+      <div className="form-page">
         <h1> Nuevo Producto</h1>
 
         <form>
@@ -35,10 +35,6 @@ class Vendedor extends React.Component{
           <div className = 'form-group'>
             <label>Nombre del producto</label>
             <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'nombreProducto'/>
-          </div>
-          <div className = 'form-group'>
-            <label>Precio unitario</label>
-            <input onChange = {this.handleChange} className= 'form-control' type = 'text' name = 'precioUni'/>
           </div>
           <div className='form-group'>
             <label>Detalle</label>

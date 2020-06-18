@@ -27,8 +27,9 @@ class ListProducto extends React.Component {
             //Guardamos los datos en un array
             row.push({ 
                 id: datos[i]['id'],
+                codigo: datos[i]['codigo'],
                 nombreProducto: datos[i]['nombreProducto'],
-                precioUnitario: datos[i]['precioUnitario']
+                descripcion: datos[i]['descripcion']
             });
         }
         this.setState({ data: row })
@@ -44,8 +45,9 @@ class ListProducto extends React.Component {
         console.log(value);
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "nombreProducto", field: "nombreProducto", width: "30%", color: "red", editor:true},
-      { title: "Precio Unidad", field: "precioUnitario", width: "30%", editor:true}
+      { title: "Codigo", field: "codigo", width: "20%", editor:true},
+      { title: "Nombre Producto", field: "nombreProducto", width: "30%", editor:true},
+      { title: "Detalle", field: "descripcion", width: "30%", editor:true}
     ];
     //Opciones de data table
     const options = {
@@ -53,6 +55,7 @@ class ListProducto extends React.Component {
       width: "100%",
       pagination:"local",
       paginationSize:10,
+      
       responsiveLayout:"hide",
       movableColumns:true,
       persistence:{

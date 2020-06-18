@@ -14,7 +14,9 @@ import ListProducto from './Producto/ListProducto';
 
 import Vendedor from './Vendedor/Vendedor';
 import ListVendedor from './Vendedor/ListVendedor';
+
 import Home from '../Home/Home';
+import insert from './Carga/insertDatos';
 
 class Main extends Component {
     render() {
@@ -26,21 +28,22 @@ class Main extends Component {
                       <Nav className="mr-auto">
                       <Nav.Link href="#home">Home</Nav.Link>
                       <NavDropdown title="Cliente" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#/newCliente">Nuevo Cliente</NavDropdown.Item>
-                      <NavDropdown.Item href="#/listCliente">Listar Cliente</NavDropdown.Item>
+                        <NavDropdown.Item href="#/newCliente">Nuevo Cliente</NavDropdown.Item>
+                        <NavDropdown.Item href="#/listCliente">Listar Cliente</NavDropdown.Item>
                       </NavDropdown>
-                      <NavDropdown title="Factura" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#/newFactura">Nueva Factura</NavDropdown.Item>
-                      <NavDropdown.Item href="#/listFactura">Listar Factura</NavDropdown.Item>
+                        <NavDropdown title="Factura" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="#/newFactura">Nueva Factura</NavDropdown.Item>
+                        <NavDropdown.Item href="#/listFactura">Listar Factura</NavDropdown.Item>
                       </NavDropdown>
-                      <NavDropdown title="Producto" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#/producto">Nuevo Producto</NavDropdown.Item>
-                      <NavDropdown.Item href="#/listProducto">Listar Producto</NavDropdown.Item>
+                        <NavDropdown title="Producto" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="#/producto">Nuevo Producto</NavDropdown.Item>
+                        <NavDropdown.Item href="#/listProducto">Listar Producto</NavDropdown.Item>
                       </NavDropdown>
-                      <NavDropdown title="Vendedor" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#/newVendedor">Nuevo Vendedor</NavDropdown.Item>
-                      <NavDropdown.Item href="#/listVendedor">Listar Vendedor</NavDropdown.Item>
+                        <NavDropdown title="Vendedor" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="#/newVendedor">Nuevo Vendedor</NavDropdown.Item>
+                        <NavDropdown.Item href="#/listVendedor">Listar Vendedor</NavDropdown.Item>
                       </NavDropdown>
+                      <Nav.Link href="#/carga">Carga Datos</Nav.Link>
                       </Nav>
                   </Navbar>
                   <div className="content">
@@ -57,6 +60,7 @@ class Main extends Component {
                       <Route path="/newVendedor" component={Vendedor}/>
                       <Route path="/listVendedor" component={ListVendedor}/>
                       
+                      <Route path="/carga" component={insert}/>
                   </div>
                   <div className="footer-page">
                       < footer className = 'footer mt-auto py-3 bg-primary text-white border-bottom"'>

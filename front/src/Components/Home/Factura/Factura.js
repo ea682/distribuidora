@@ -6,6 +6,7 @@ import deleteCbo from '../../img/eliminar.svg';
 import addCbo from '../../img/check.svg';
 
 import './style.css';
+import '../form.css';
 
 class Factura extends React.Component{
   constructor(props) {
@@ -43,6 +44,7 @@ class Factura extends React.Component{
   }
 
   cambiarValores(){
+    //Obtenemos el array de los productos
     let getProductosSelect = this.state.arrayProductos;
     let listProductos = this.state.productos;
     let idGetProducto = 0;
@@ -52,9 +54,11 @@ class Factura extends React.Component{
     let totalBruto = 0;
     let totalNeto = 0;
     for (let i = 0; i < getProductosSelect.length; i++) {
-      
+      //Obtenemos los valores del array de los prodcutos
       idGetProducto = getProductosSelect[i].selectValue;
-      cantidad = getProductosSelect[i].valor;
+      //Limpiamos la variables en caso de que se agrege el signo $
+      cantidad = getProductosSelect[i].cantidad.replace('$','');
+      precioUni = getProductosSelect[i].precio.replace('$','');
       if(cantidad > -1){
 
       }else{
@@ -64,28 +68,28 @@ class Factura extends React.Component{
         idProducto = listProductos[u].id;
         if(idGetProducto == idProducto){
 
-          precioUni = listProductos[u].precioUnitario;
-          totalBruto += precioUni*cantidad;
+          //precioUni = listProductos[u].precioUnitario;
+          totalNeto += precioUni*cantidad;
           break;
         }
       }
     }
-    document.getElementById('txtBruto').value = `$${totalBruto}`;
+    //Le enviamos el total neto al usuario.
+    document.getElementById('txtNeto').value = `$${totalNeto}`;
+
+    //Obtenemos el IVA
     let iva = document.getElementById("txtIva").value;
 
-    
-
-    //Validaciones
+    //Validaciones que el iva no este vacio.
     if(iva.length == 0){
       iva = 19;
     }else{
       try {
         iva = parseInt(iva.replace('%',''));
-        
-        
       } catch (error) {
         
       }
+      //validamos que el usuario ingreso un puro digito, esto represneta numeros menor al 9
       if(iva.toString().length == 1){
         iva = `0${iva}`;
         document.getElementById("txtIva").value = iva;
@@ -94,52 +98,75 @@ class Factura extends React.Component{
       }
     }
     iva =  `1.${iva}`;
-    totalNeto = totalBruto*iva;
-    
-    document.getElementById('txtNeto').value= `$${totalNeto}`;
+    totalBruto = totalNeto*iva;
+    //Entregamos el bruto al usuario para visualizar.
+    document.getElementById('txtBruto').value= `$${totalBruto}`;
   }
 
   getProductos(){
+    //Obtenemos los elementos dentro del divProductos
     let elementsProductos = document.getElementById('divProductos');
+    //Obtenemos los elementos a usar
     let getSelects = elementsProductos.getElementsByTagName('select');
     let getTxt = elementsProductos.getElementsByTagName('input');
+    
     let arrayDatos = [];
     let arrayDatos2 = [];
 
-    for (let i = 0; i < getSelects.length; i++){
-      let datoSelect = getSelects[i].value;
-      let datoInput = getTxt[i].value;
+    //Al obtener el los input, obtenemos 2 por elemento creado, le indicamos que haga un contador para poder tomar cada uno de los elementos.
+    let contadorCantidad = 0;
+    let contadorPrecio = 1;
 
+    //Recorremos todo los productos.
+    for (let i = 0; i < getSelects.length; i++){
+
+      //Obtenemos los datos de los productos agregados
+      let datoSelect = getSelects[i].value;
+      let datoInput = getTxt[contadorCantidad].value;
+      let datoPrecio = getTxt[contadorPrecio].value;
+      
       let newArray = [];
+
+      //Guardamos en 2 array, uno se guardara para uso de de los datos a mostrar total neto y bruto y el otro se enviara a la BD.
       newArray.push(datoSelect);
       newArray.push(datoInput);
+      newArray.push(datoPrecio);
       arrayDatos2.push(newArray);
 
-      let concatenar = {selectValue : datoSelect, valor : datoInput }
+      //Se concatenan los productos.
+      let concatenar = {selectValue : datoSelect, cantidad : datoInput, precio : datoPrecio }
       arrayDatos.push(concatenar);
 
+      contadorCantidad = contadorCantidad+2;
+      contadorPrecio = contadorPrecio +2;
     }
+    //Guardamos en la state y les damos sus usos.
     this.setState({ arrayProductos : arrayDatos});
     this.setState({ arrayProductos2 : arrayDatos2});
     this.cambiarValores();
   }
 
-  objetToArray(obj) {
-    for (let prop of Object.keys(obj)) // own properties, you might use
-                                       // for (let prop in obj)
-        return obj[prop];
-  }
   //Insertamos los datos.
   handleClick =(e)=>{
     let datos = this.state;
-    console.log(this.state)
-    axios.post(`${api}/api/factura/${datos.NumFactura}/${datos.detalle}/${datos.cboFactura}/${datos.cboTipoPago}/${datos.fechaDocumento}/${datos.fechaVencimiento}/${datos.cboClientes}/${this.state.arrayProductos2}/${datos.iva}`)
+    
+    axios.post(`${api}/api/factura/${datos.NumFactura}/${datos.cboFactura}/${datos.cboTipoPago}/${datos.fechaDocumento}/${datos.fechaVencimiento}/${datos.cboClientes}/${this.state.arrayProductos2}/${datos.iva}`)
     .then(res => {
-      console.log(res.data.message);
-      return res.data.message;
+      let data = res.data.data;
+      console.log(data.data);
+      console.log(data);
+      if(data != false && data != "error"){
+        this.resultOK();
+      }else{
+        if(data != false){
+          this.resultCreado();
+        }else{
+          this.resultError();
+        }
+      }
     })
     .catch(err => {
-      console.log(err);
+      this.resultError();
     })
   }
   //Obtenemos los clientes y la agregamos al HTML
@@ -290,8 +317,30 @@ class Factura extends React.Component{
       document.getElementById("txtIva").disabled = false;
       this.setState({ ckeckIva: true});
     }else{
+      document.getElementById("txtIva").value = "19%";
+      this.cambiarValores();
       document.getElementById("txtIva").disabled = true;
       this.setState({ ckeckIva: false});
+    }
+  }
+
+  //Actualizamos el precio por cambios en el CBO de los productos.
+  updatePrecio(e){
+    let idCbo = e.target.id;
+    let indicadorTxt = e.target.name;
+    //Obetenmos la option elegida.
+    let valorOption = document.getElementById(idCbo).selectedIndex;
+    let valor = document.getElementById("cboProducto1").options[valorOption].value
+
+    //Recorremos dentor de los productos y buscamos el ID elegido
+    for (let i = 0; i < this.state.productos.length; i++) {
+      let datos = this.state.productos;
+      if(datos[i].id == valor){
+        //Obtenemos el valor y se lo enviamos al usuario.
+        document.getElementById(`txtPrecio${indicadorTxt}`).value= `$${datos[i].precioUnitario}`;
+        console.log(datos[i].precioUnitario);
+        console.log(`precio${indicadorTxt}`);
+      }
     }
   }
 
@@ -308,35 +357,49 @@ class Factura extends React.Component{
     addDiv.className = "elementProducts";
     
     //Lo concatenamos.
-    addDiv.innerHTML += `<div id='conSelect${contadorElementos}'><label>Producto ${contadorElementos} </label></div><div id='txtProducto${contadorElementos}'><label>Cantidad</label></div>`;
+    addDiv.innerHTML += `<div id='conSelect${contadorElementos}'><label>Producto ${contadorElementos} </label></div><div id='txtProducto${contadorElementos}'><label>Cantidad</label></div><div id='precio${contadorElementos}'><label>Precio Producto ${contadorElementos}</label></div>`;
     //Lo insertamos
     getDiv.appendChild(addDiv)
 
     //Creamos el select
     let getDivSelect = document.getElementById(`conSelect${contadorElementos}`);
     let newSelect = document.createElement("select");
-    newSelect.name= `cboProducto${contadorElementos}`
+    //newSelect.name= `cboProducto${contadorElementos}`
+    newSelect.name= `${contadorElementos}`
     newSelect.id = `cboProducto${contadorElementos}`
     newSelect.className = "form-control"
     newSelect.onchange = this.getProductos.bind(this);
+    newSelect.onchange = this.updatePrecio.bind(this);
 
     getDivSelect.appendChild(newSelect)
 
-    //Creamos el Input
+    //Creamos el Input del producto
     let getDivInput = document.getElementById(`txtProducto${contadorElementos}`);
     let newInput = document.createElement("input");
     newInput.name= `txtProducto${contadorElementos}`
     newInput.id = `txtProducto${contadorElementos}`
     newInput.className = "form-control"
+    newInput.value=0
     newInput.onchange = this.getProductos.bind(this);
 
     getDivInput.appendChild(newInput)
+
+    //Creamos el Input del precio
+    let getDivInput2 = document.getElementById(`precio${contadorElementos}`);
+    let newInputPrecio = document.createElement("input");
+    newInputPrecio.name= `txtPrecio${contadorElementos}`
+    newInputPrecio.id = `txtPrecio${contadorElementos}`
+    newInputPrecio.className = "form-control"
+    newInputPrecio.onchange = this.getProductos.bind(this);
+
+    getDivInput2.appendChild(newInputPrecio)
 
     //Obtenemos los productos.
     let datosProductos = this.state.productos;
 
     //Obtenemos el elemento a actualizar
     let cboProducto = document.getElementById(`cboProducto${contadorElementos}`);
+
     //Le creamos la primera validacion y campo.
     let opt = document.createElement("option");
     opt.value = 0;
@@ -366,23 +429,81 @@ class Factura extends React.Component{
       //Eliminalos el div
       document.getElementById(concatNombreId).remove();
     }
+  }
+
+  //Eliminamos los elementos emergentes
+  deleteElement(id){
+    let cantidadElementos = document.getElementsByClassName("divMsj");
+    setTimeout(function() {
+      for (let i = 0; i < cantidadElementos.length; i++) {
+        let elementoContent = document.getElementsByClassName("divMsj")[i];
+        try {
+          elementoContent.parentNode.removeChild(elementoContent);
+        } catch (error) {
+          
+        }
+      }
+      
+    }, 5000);
     
+    
+    //divDelete.removeChild(divDelete[]);
+  }
+
+  resultOK(){
+    //Obtenemos el elemento al cual le agregaremos la validacion.
+    let elementoContent = document.getElementById('nuevaFactura');
+
+    //Creamos el elemento y le damos las propiedades.
+    let addDiv = document.createElement("div");
+    addDiv.className = "divOK divMsj";
+    addDiv.id = "elementoDesplegado";
+    addDiv.innerHTML += "<label>Se creo nuevo vendedor</label>";
+    
+    
+    elementoContent.appendChild(addDiv);
+    this.deleteElement("elementoDesplegado");
+  }
+
+  resultCreado(){
+    //Obtenemos el elemento al cual le agregaremos la validacion.
+    let elementoContent = document.getElementById('nuevaFactura');
+
+    //Creamos el elemento y le damos las propiedades.
+    let addDiv = document.createElement("div");
+    addDiv.className = "divRep divMsj";
+    addDiv.id = "elementoDesplegado";
+    addDiv.innerHTML += "<label>El vendedor ya existe</label>";
+    
+    
+    elementoContent.appendChild(addDiv);
+    this.deleteElement("elementoDesplegado");
+  }
+
+  resultError(){
+    //Obtenemos el elemento al cual le agregaremos la validacion.
+    let elementoContent = document.getElementById('nuevaFactura');
+
+    //Creamos el elemento y le damos las propiedades.
+    let addDiv = document.createElement("div");
+    addDiv.className = "divError divMsj";
+    addDiv.id = "elementoDesplegado";
+    addDiv.innerHTML += "<label>Error para crear Vendedor</label>";
+    
+    
+    elementoContent.appendChild(addDiv);
+    this.deleteElement("elementoDesplegado");
   }
 
   render(){
     return(
-      <div className="form-page">
+      <div id="nuevaFactura" className="form-page">
         <h1> Nueva Factura</h1>
         <form>
           <div className = 'form-group'>
             <label>Numero de factura</label>
             <input onChange={e => this.change(e)} className='form-control' type='text' name='NumFactura'/>
           </div>
-          <div className = 'form-group'>
-            <label>Detalle</label>
-            <textarea onChange={e => this.change(e)} name='detalle' className='form-control' id='txtDetalle' rows='3' aria-label="With textarea"/>
-          </div>
-
           <div className = 'form-group'>
             <label>Tipo de factura</label>
             <select id='cboFactura' className='form-control' name='cboFactura' onChange={e => this.change(e)}  >
@@ -426,8 +547,8 @@ class Factura extends React.Component{
             </div>
           </div>
           <div className='form-group'>
-            <label>Total Bruto</label>
-            <input className='form-control' type='text' name ='totalBruto' id='txtBruto' disabled/>
+            <label>Total Neto</label>
+            <input className='form-control' type='text' name ='totalNeto' id='txtNeto' disabled/>
           </div>
           <div className = 'form-group'>
             <div style= {{width : '50%', display: 'inline-block'}}>
@@ -440,8 +561,8 @@ class Factura extends React.Component{
             </div>
           </div>
           <div className='form-group'>
-            <label>Total Neto</label>
-            <input className='form-control' type ='text' name='totalNeto' id='txtNeto' disabled/>
+            <label>Total Bruto</label>
+            <input className='form-control' type ='text' name='totalBruto' id='txtBruto' disabled/>
           </div>
           <button type='button' onClick={this.handleClick} className='btn btn-primary'> Guardar </button>
         </form>

@@ -37,6 +37,33 @@ class ClienteService{
             });
         });
     }
+
+    newClienteCarga(rut, nombreCliente, direccion, giro, codigoVendedor, telefono){
+        return new Promise(function (resolve, reject){
+            //Buscamos el codigo del vendedor
+            const query = `SELECT id FROM vendedor WHERE codigo = "${codigoVendedor}" `;
+            conn.query(query, (err, rows) => {
+                if(err){
+                    console.log(err);
+                }else{
+                    //Le agregamos el codigo al vendedor.
+                    if(rows[0] === "[]" || rows[0] === undefined){
+                        //console.log(rows[0]);
+                    }else{
+                        let idVendedor = rows[0].id;
+                        const query = `INSERT INTO cliente (rut, nombreCliente, direccion, giro, idVendedor, telefono) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${giro}', '${idVendedor}', '${telefono}');`;
+                        conn.query(query, (err, rows) => {
+                            if(err){
+                                return resolve(err);
+                            }else{
+                                return resolve(true);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    }
 }
 
 module.exports = ClienteService;
