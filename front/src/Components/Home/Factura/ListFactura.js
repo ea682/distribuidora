@@ -52,10 +52,9 @@ class ListaFactura extends React.Component {
     const columns = [
       { title: "Acciones", field: "id", width: "20%", align:"center", formatter:function(cell){
         let value = cell.getValue();
-        console.log(value);
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "RUT", field: "rut", width: "9%", editor:true},
+      { title: "RUT", field: "rut", width: "9%"},
       { title: "Nombre Cliente", field: "nombreCliente", width: "15%", editor:true},
       { title: "Direccion Cliente", field: "direccion", width: "15%", editor:true},
       { title: "GIRO", field: "giro", width: "7%", editor:true},
@@ -76,7 +75,7 @@ class ListaFactura extends React.Component {
       layout:"id",
       width: "100%",
       pagination:"local",
-      paginationSize:10,
+      paginationSize:30,
       movableColumns:true,
       persistence:{
         sort:true,

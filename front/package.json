@@ -26,6 +26,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-tabulator": "^0.12.7",
+    "tabulator-tables": "^4.7.0",
     "typescript": "^3.9.3"
   },
   "scripts": {

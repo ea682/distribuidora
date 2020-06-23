@@ -44,26 +44,44 @@ class UploadService{
 
         //Agregamos los productos que no tengamos en la BD
         for (let i = 0; i < datos.length; i++) {
+            try {
+                 //Validamos que este sea mayor a 1
+                if(datos[i]["Cantidad"] >= 1){
+                    //Agregamos los productos
+                    productoServices.newProductoCarga(datos[i]["Cod. Producto"], datos[i]["Desc. Producto"], datos[i]["Precio Unitario"]);
 
-            //Validamos que este sea mayor a 1
-            if(datos[i]["Cantidad"] >= 1){
-                //Agregamos los productos
-                productoServices.newProductoCarga(datos[i]["Cod. Producto"], datos[i]["Desc. Producto"], datos[i]["Precio Unitario"]);
+                    //vendedorServices.newVendedor(datos[i]["Cod. Vendedor"], '', '', 0);
+                    
+                    //Validamos el numero cuando no contenga el mismo
+                    let telefonoCliente = datos[i]["Teléfono del Cliente"];
+                    if(telefonoCliente === undefined){
+                        telefonoCliente = "";
+                    }
 
-                //vendedorServices.newVendedor(datos[i]["Cod. Vendedor"], '', '', 0);
+                    clientesServices.newClienteCarga(datos[i]["RUT Cliente"], datos[i]["Nombre del Cliente"], datos[i]["Dirección del Cliente"], datos[i]["Giro del Cliente"], datos[i]["Cod. Vendedor"], telefonoCliente);
+
+                    facturaServices.newFacturaCarga(datos[i]["Nombre Doc"], datos[i]["Número del Documento"], datos[i]["Fecha"], datos[i]["Fecha Vencimiento"], datos[i]["RUT Cliente"], datos[i]["Cantidad"], datos[i]["Precio Unitario"], datos[i]["Cod. Producto"], "");
+
                 
-                //Validamos el numero cuando no contenga el mismo
-                let telefonoCliente = datos[i]["Teléfono del Cliente"];
-                if(telefonoCliente === undefined){
-                    telefonoCliente = "";
+                }else{
+                    //Agregamos los productos
+                    productoServices.newProductoCarga(datos[i]["Cod. Producto"], datos[i]["Desc. Producto"], datos[i]["Precio Unitario"]);
+
+                    //vendedorServices.newVendedor(datos[i]["Cod. Vendedor"], '', '', 0);
+                    
+                    //Validamos el numero cuando no contenga el mismo
+                    let telefonoCliente = datos[i]["Teléfono del Cliente"];
+                    if(telefonoCliente === undefined){
+                        telefonoCliente = "";
+                    }
+                    
+                    clientesServices.newClienteCarga(datos[i]["RUT Cliente"], datos[i]["Nombre del Cliente"], datos[i]["Dirección del Cliente"], datos[i]["Giro del Cliente"], datos[i]["Cod. Vendedor"], telefonoCliente);
+
+                    facturaServices.newFacturaCarga(datos[i]["Nombre Doc"], datos[i]["Número del Documento"], datos[i]["Fecha"], datos[i]["Fecha Vencimiento"], datos[i]["RUT Cliente"], datos[i]["Cantidad"], datos[i]["Precio Unitario"], datos[i]["Cod. Producto"], datos[i]["Num Tipo Doc Asociado"]);
                 }
-
-                clientesServices.newClienteCarga(datos[i]["RUT Cliente"], datos[i]["Nombre del Cliente"], datos[i]["Dirección del Cliente"], datos[i]["Giro del Cliente"], datos[i]["Cod. Vendedor"], telefonoCliente);
-
-                facturaServices.newFacturaCarga(datos[i]["Nombre Doc"], datos[i]["Número del Documento"], datos[i]["Fecha"], datos[i]["Fecha Vencimiento"], datos[i]["RUT Cliente"], datos[i]["Cantidad"], datos[i]["Precio Unitario"], datos[i]["Cod. Producto"]);
-
-                
-            }    
+            } catch (error) {
+                console.log(error)
+            }
         }
         return datos;
     }

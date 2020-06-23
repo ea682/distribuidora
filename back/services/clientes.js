@@ -44,7 +44,7 @@ class ClienteService{
             const query = `SELECT id FROM vendedor WHERE codigo = "${codigoVendedor}" `;
             conn.query(query, (err, rows) => {
                 if(err){
-                    console.log(err);
+                    //console.log(err);
                 }else{
                     //Le agregamos el codigo al vendedor.
                     if(rows[0] === "[]" || rows[0] === undefined){
@@ -54,6 +54,7 @@ class ClienteService{
                         const query = `INSERT INTO cliente (rut, nombreCliente, direccion, giro, idVendedor, telefono) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${giro}', '${idVendedor}', '${telefono}');`;
                         conn.query(query, (err, rows) => {
                             if(err){
+                                //console.log(query);
                                 return resolve(err);
                             }else{
                                 return resolve(true);

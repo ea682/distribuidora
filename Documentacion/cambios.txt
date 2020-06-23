@@ -52,6 +52,41 @@ total linea tiene 1 decimal.
 -Donde esta el resto de la informacion del vendedor?
 -Donde esta el tipo de pago
 
-
+//Respuestas
 -Dejar solamente descripcion en el nuevo producto.
 -El vendedor se deja en blanco
+-tipo de pago se deja en blanco
+
+-La columna Q es el codigo de la factura.
+-La cantidad puede ser decimal, tiene que mayor a 0
+-Nota de venta no tiene IVA
+
+-La nota de credito valida el estado este pagada, abonada y no pagada.
+-Valida que no sea mayor la nota de credito
+
+-Nota de debito tiene como requisto una nota de credito
+
+
+//Nuevo requerimientos
+crear casilla con pagos.
+
+    //pago manual
+    -Ingresr numero de documento y buscar el numero del documento
+    -Visualizar Nombre cliente.
+    -LLamar el total bruto.
+
+    //Tiene que encontrar mas de un tipo de documento.
+    -Filtro de tipo documentos.
+
+    //Fecha de pago en historico.
+
+    //Hoja de ruta, numerico, pago manual que se asocia a la factua
+
+    //Validar que el monto no sea menor a igual al total y a igual = .
+    //Ingreso monto a pago.
+    //Mostrar input del saldo del documento.
+
+
+//comision
+    El vendedor recive una factua pagada del total neto.
+    --Esto se hace al momento de sacr el informe
