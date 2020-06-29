@@ -13,14 +13,27 @@ class ProductoService{
         });
     }
 
-    newProducto(nombre, precio){
+    newProducto(codigo, precio, detalle){
         return new Promise(function (resolve, reject){
-            const query = `INSERT INTO producto (nombreProducto, precioUnitario) VALUES ('${nombre}', '${precio}');`;
+            const query = `INSERT INTO producto (codigo, descripcion, precioUnitario) VALUES ('${codigo}', '${detalle}', '${precio}');`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err){
-                    console.log(err);
                     return resolve(err);
+                }else{
+                    return resolve(true);
+                }
+            });
+        });
+    }
+
+    newProductoCarga(codigo, detalle, precio){
+        return new Promise(function (resolve, reject){
+            const query = `INSERT INTO producto (codigo, descripcion, precioUnitario) VALUES ('${codigo}', '${detalle}', '${precio}');`;
+            conn.query(query, (err, rows) => {
+                if(err){
+                    //console.log(err);
+                    //return resolve(err);
                 }else{
                     return resolve(true);
                 }

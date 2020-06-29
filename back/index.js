@@ -1,6 +1,5 @@
 const express = require('express');
 
-
 const authApiRouter = require("./routes/api/auth");
 const compradores = require('./routes/api/compradores');
 const users = require('./routes/api/users');
@@ -10,12 +9,12 @@ const producto = require('./routes/api/producto');
 const tipos = require('./routes/api/tipos');
 const factura = require('./routes/api/factura');
 const vendedor = require('./routes/api/vendedor');
+const cargaExcel = require('./routes/api/uploadExcel');
 const test = require('./test');
 
 const bodyparser = require('body-parser');
 
 const app = express();
-
 
 
 app.use(function (req, res, next) {
@@ -46,6 +45,12 @@ app.use("/api/tipos", tipos);
 app.use("/api/factura", factura);
 app.use("/api/localizacion", localizacion);
 app.use("/api/auth", authApiRouter);
+try {
+  app.use("/api/upload", cargaExcel);
+} catch (error) {
+  console.log(456);
+}
+
 app.use("/api/test", test);
 
 

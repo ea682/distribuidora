@@ -1,0 +1,92 @@
+-El cliente estara enlazado al vendedor.
+vendedor puede tener muchos clientes y el cliente solo puede tener un vendedor
+-Exento de IVA, no va.
+-vendedor agregar el % comision.
+-Tipo cliente, no va.
+-Agregar telefono al cliente.
+-Tipo moneda no va
+
+
+Falta
+-Agregar tipo de pago en cliente
+Tarjeta credito
+Efectivo
+
+Se agrega a detalle factura
+-Afecto es el total sin IVA, valor neto.
+-IVA 19%, el IVA se puede editar.
+
+//Factura
+-Poder cambiar nombre
+
+//Agregar
+-nota de credito
+
+
+//Cambios 08/06/2020
+//Significado
+Total line = total bruto dela Factura
+
+
+//Cambio React
+El precio unitario del producto se puede editar junto con el IVA
+
+
+
+09/08/2020
+direccion y comuna de vendedor se elimina
+detalle del produco se elimina
+20362868-4
+arteck
+
+
+hay un documento que va excento de IVA (NOTA VENTA).
+guia despacho electronico, no esta en la carga.
+
+//factura
+canidad tiene maximo 3 decimales.
+total linea tiene 1 decimal.
+
+//Dudas Erik
+-En el documento hay un campo que se llama Desc producto, enserio se elimina?
+-Donde esta el resto de la informacion del vendedor?
+-Donde esta el tipo de pago
+
+//Respuestas
+-Dejar solamente descripcion en el nuevo producto.
+-El vendedor se deja en blanco
+-tipo de pago se deja en blanco
+
+-La columna Q es el codigo de la factura.
+-La cantidad puede ser decimal, tiene que mayor a 0
+-Nota de venta no tiene IVA
+
+-La nota de credito valida el estado este pagada, abonada y no pagada.
+-Valida que no sea mayor la nota de credito
+
+-Nota de debito tiene como requisto una nota de credito
+
+
+//Nuevo requerimientos
+crear casilla con pagos.
+
+    //pago manual
+    -Ingresr numero de documento y buscar el numero del documento
+    -Visualizar Nombre cliente.
+    -LLamar el total bruto.
+
+    //Tiene que encontrar mas de un tipo de documento.
+    -Filtro de tipo documentos.
+
+    //Fecha de pago en historico.
+
+    //Hoja de ruta, numerico, pago manual que se asocia a la factua
+
+    //Validar que el monto no sea menor a igual al total y a igual = .
+    //Ingreso monto a pago.
+    //Mostrar input del saldo del documento.
+
+
+//comision
+    El vendedor recive una factua pagada del total neto.
+    --Esto se hace al momento de sacr el informe
