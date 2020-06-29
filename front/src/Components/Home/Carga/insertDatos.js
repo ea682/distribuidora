@@ -19,10 +19,22 @@ class IsertDatos extends React.Component {
   render() {
     
     return (
-      <div>
+      <div className="form-page">
         <form action={rutaSubir} method="POST" enctype="multipart/form-data">
-            <input type="file" name="file"/>
-            <input type="submit" value="Subir"/>
+          <br></br>
+          <div className='form-group'>
+            <label>Importar Datos</label>
+          </div>
+          <div className='form-group'>
+            <div className = 'custom-file mb-3'>
+              <input type="file" name="file" className='custom-file-input' id="inputGroupFile"/>
+              <label class="custom-file-label" for="customFile">Selecionar archivo</label>
+            </div>
+          </div>
+          <div className='form-group'>
+            <input type="submit" value="Subir" className = 'btn btn-primary'/>
+          </div>
+            
         </form>
       </div>
     );

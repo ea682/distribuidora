@@ -17,6 +17,8 @@ import ListVendedor from './Vendedor/ListVendedor';
 
 import Home from '../Home/Home';
 import insert from './Carga/insertDatos';
+import pagos from "./Pagos/pagos";
+import listarPagos from './Pagos/ListarPagos'
 
 class Main extends Component {
     render() {
@@ -43,6 +45,10 @@ class Main extends Component {
                         <NavDropdown.Item href="#/newVendedor">Nuevo Vendedor</NavDropdown.Item>
                         <NavDropdown.Item href="#/listVendedor">Listar Vendedor</NavDropdown.Item>
                       </NavDropdown>
+                      <NavDropdown title="Pagos" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="#/newPagos">Nuevo Pago</NavDropdown.Item>
+                        <NavDropdown.Item href="#/listarPagos">Listar Pagos</NavDropdown.Item>
+                      </NavDropdown>
                       <Nav.Link href="#/carga">Carga Datos</Nav.Link>
                       </Nav>
                   </Navbar>
@@ -61,14 +67,17 @@ class Main extends Component {
                       <Route path="/listVendedor" component={ListVendedor}/>
                       
                       <Route path="/carga" component={insert}/>
-                  </div>
-                  <div className="footer-page">
-                      < footer className = 'footer mt-auto py-3 bg-primary text-white border-bottom"'>
-                          < div  className = 'container' >Distribuidora Carne clc </div>
-                          < div  className = 'container' >Portal creado 2020 </div>
-                      </footer >
+
+                      <Route path="/newPagos" component={pagos}/>
+                      <Route path="/listarPagos" component={listarPagos}/>
                   </div>
               </div>
+            <div className="footer-copyright text-center py-5">
+              < footer className = 'footer mt-auto py-2 bg-primary text-white border-bottom'>
+                < div  className = 'container' >Distribuidora Carne clc </div>
+                < div  className = 'container' >Portal creado 2020 </div>
+              </footer >
+            </div>
           </HashRouter>
       );
     }

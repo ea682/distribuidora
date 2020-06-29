@@ -50,7 +50,7 @@ class UploadService{
                     //Agregamos los productos
                     productoServices.newProductoCarga(datos[i]["Cod. Producto"], datos[i]["Desc. Producto"], datos[i]["Precio Unitario"]);
 
-                    //vendedorServices.newVendedor(datos[i]["Cod. Vendedor"], '', '', 0);
+                    vendedorServices.newVendedor(datos[i]["Cod. Vendedor"], '', '', 0);
                     
                     //Validamos el numero cuando no contenga el mismo
                     let telefonoCliente = datos[i]["Teléfono del Cliente"];
@@ -67,7 +67,7 @@ class UploadService{
                     //Agregamos los productos
                     productoServices.newProductoCarga(datos[i]["Cod. Producto"], datos[i]["Desc. Producto"], datos[i]["Precio Unitario"]);
 
-                    //vendedorServices.newVendedor(datos[i]["Cod. Vendedor"], '', '', 0);
+                    vendedorServices.newVendedor(datos[i]["Cod. Vendedor"], '', '', 0);
                     
                     //Validamos el numero cuando no contenga el mismo
                     let telefonoCliente = datos[i]["Teléfono del Cliente"];
