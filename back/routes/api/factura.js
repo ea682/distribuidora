@@ -44,4 +44,18 @@ router.post("/:numeroFactura/:tipoFactura/:tipoPago/:fechaDocumento/:fechaVencim
         });
     }
 });
+
+router.post("/buscarFactura/:id", async function(req, res, next) {
+    try {
+        const { id } = req.params;
+        const datosFactura = await facturaServices.getFactura(id).then(JSON);
+        res.status(200).json({
+            data: datosFactura
+        });
+    } catch (error) {
+        res.status(200).json({
+            data: "error",
+        });
+    }
+});
 module.exports = router;
