@@ -9,11 +9,12 @@ class FacturaService{
     getAllFactura(){
         return new Promise(function (resolve, reject){
             try {
-                const query = "SELECT                fa.id,                de.id,                proF.id,                cli.rut,                cli.nombreCliente,                cli.direccion,                cli.giro,                v.codigo as 'rutVendedor',                cli.telefono,                tf.nombreTipoFactura,                fa.numeroFactura as 'nFactura',                fa.fechaDocumento,                pro.codigo,                pro.descripcion,                proF.cantidad,                prof.precioUnitario,                CASE                    WHEN cantidad < 0 THEN ROUND((prof.precioUnitario*proF.cantidad))*-1                    WHEN cantidad > 0 THEN ROUND((prof.precioUnitario*proF.cantidad))                    ELSE 'Fallo Interno'                    END AS 'totalUnitario',                (                 SELECT CASE                         WHEN sumP.cantidad < 0 THEN ROUND(SUM(((sumP.cantidad * sumP.precioUnitario))*1.19)-1)                         WHEN sumP.cantidad > 0 THEN ROUND(SUM((sumP.cantidad * sumP.precioUnitario))*1.19)                         ELSE 'Fallo'                         END AS 'Total'                     FROM productosfactura AS sumP                     INNER JOIN detalleFactura AS sumD                     ON sump.idDetalleFacura = sumD.id                     INNER JOIN factura AS sumF                     ON sumD.idFactura = sumF.id                     WHERE sumF.numeroFactura = fa.numeroFactura                     ) AS 'totalNeto'             FROM                factura AS fa                 INNER JOIN                   detalleFactura AS de                    ON fa.id = de.idFactura                 INNER JOIN                   productosfactura AS proF                    ON proF.idDetalleFacura = de.id                INNER JOIN                   tipofactura AS tf                    ON fa.idTipoFactura = tf.id                 INNER JOIN                   tipopago AS tp                    ON fa.idTipoPago = tp.id                 INNER JOIN                   cliente AS cli                    ON fa.idCliente = cli.id                 INNER JOIN                   vendedor AS v                    ON cli.idVendedor = v.id                 INNER JOIN                   statusfactura AS sf                    ON de.idStatusFactura = sf.id                 INNER JOIN                   producto AS pro                    ON proF.idProducto = pro.id                ORDER BY fa.id ASC";
+                const query = "SELECT                                fa.id,                                de.id,  	                de.facturaAsociada,                              proF.id,                                cli.rut,                                cli.nombreCliente,                                cli.direccion,                                cli.giro,                                v.codigo as 'rutVendedor',                               cli.telefono,                                tf.nombreTipoFactura,                                fa.numeroFactura as 'nFactura',                                fa.fechaDocumento,                pro.codigo,                                pro.descripcion,                                proF.cantidad,                                prof.precioUnitario,                                CASE                                        WHEN cantidad < 0 THEN ROUND((prof.precioUnitario*proF.cantidad))*-1                                      WHEN cantidad > 0 THEN ROUND((prof.precioUnitario*proF.cantidad))                                        ELSE 'Fallo Interno'                                        END AS 'totalUnitario',                                    (                                         SELECT                                 CASE                                                             WHEN sumP.cantidad < 0 THEN ROUND(SUM(((sumP.cantidad * sumP.precioUnitario))*1.19)-1)                                                             WHEN sumP.cantidad > 0 THEN ROUND(SUM((sumP.cantidad * sumP.precioUnitario))*1.19)- (SELECT case                                    when pa.monto IS not NULL then SUM(pa.monto)                                     ELSE 0                                    END AS total123                                    FROM pagos AS pa                                    INNER JOIN  factura AS f ON f.id = pa.IdFactura                                    WHERE F.id = fa.id)                                    ELSE 'Fallo'                                                             END AS 'Total'                                                         FROM productosfactura AS sumP                                                         INNER JOIN detalleFactura AS sumD                                                         ON sump.idDetalleFacura = sumD.id                                                         INNER JOIN factura AS sumF                                                         ON sumD.idFactura = sumF.id                                                         WHERE sumF.numeroFactura = fa.numeroFactura                                        ) AS 'totalBruto'                                 FROM factura AS fa                                     INNER JOIN detalleFactura AS de                                        ON fa.id = de.idFactura                                     INNER JOIN productosfactura AS proF                                        ON proF.idDetalleFacura = de.id                                    INNER JOIN tipofactura AS tf                                       ON fa.idTipoFactura = tf.id                                     INNER JOIN  tipopago AS tp                                        ON fa.idTipoPago = tp.id                                     INNER JOIN  cliente AS cli                                        ON fa.idCliente = cli.id                                     INNER JOIN vendedor AS v                                        ON cli.idVendedor = v.id                                     INNER JOIN statusfactura AS sf                                        ON de.idStatusFactura = sf.id                                     INNER JOIN  producto AS pro                                        ON proF.idProducto = pro.id                    ORDER BY fa.id ASC";
 
                 conn.query(query, (err, rows) => {
                     if(err){
                         //console.log(err);
+<<<<<<< HEAD
                         const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
                         conn.query(queryError, (err, rows) => {
                             if(err){
@@ -45,6 +46,8 @@ class FacturaService{
                 conn.query(query, (err, rows) => {
                     if(err){
                         //console.log(err);
+=======
+>>>>>>> erik
                         const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
                         conn.query(queryError, (err, rows) => {
                             if(err){
@@ -58,6 +61,40 @@ class FacturaService{
                 })
             } catch (err) {
                 //console.log(err);
+<<<<<<< HEAD
+=======
+                const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
+                conn.query(queryError, (err, rows) => {
+                    if(err){
+                    }else{
+                    }
+                })
+            }
+        });
+    }
+
+    getFactura(idFactura){
+        return new Promise(function (resolve, reject){
+            try {
+                const query = `SELECT                fa.id,                de.id,                proF.id,                cli.rut,                cli.nombreCliente,                cli.direccion,                cli.giro,                v.codigo as 'rutVendedor',                cli.telefono,                tf.nombreTipoFactura,                fa.numeroFactura as 'nFactura',                fa.fechaDocumento,                pro.codigo,                pro.descripcion,                proF.cantidad,                prof.precioUnitario,                CASE                    WHEN cantidad < 0 THEN ROUND((prof.precioUnitario*proF.cantidad))*-1                    WHEN cantidad > 0 THEN ROUND((prof.precioUnitario*proF.cantidad))                    ELSE 'Fallo Interno'                    END AS 'totalUnitario',                (                 SELECT CASE                         WHEN sumP.cantidad < 0 THEN ROUND(SUM(((sumP.cantidad * sumP.precioUnitario))*1.19)-1)                         WHEN sumP.cantidad > 0 THEN ROUND(SUM((sumP.cantidad * sumP.precioUnitario))*1.19)                         ELSE 'Fallo'                         END AS 'Total'                     FROM productosfactura AS sumP                     INNER JOIN detalleFactura AS sumD                     ON sump.idDetalleFacura = sumD.id                     INNER JOIN factura AS sumF                     ON sumD.idFactura = sumF.id                     WHERE sumF.numeroFactura = fa.numeroFactura                     ) AS 'totalNeto'             FROM                factura AS fa                 INNER JOIN                   detalleFactura AS de                    ON fa.id = de.idFactura                 INNER JOIN                   productosfactura AS proF                    ON proF.idDetalleFacura = de.id                INNER JOIN                   tipofactura AS tf                    ON fa.idTipoFactura = tf.id                 INNER JOIN                   tipopago AS tp                    ON fa.idTipoPago = tp.id                 INNER JOIN                   cliente AS cli                    ON fa.idCliente = cli.id                 INNER JOIN                   vendedor AS v                    ON cli.idVendedor = v.id                 INNER JOIN                   statusfactura AS sf                    ON de.idStatusFactura = sf.id                 INNER JOIN                   producto AS pro                    ON proF.idProducto = pro.id    WHERE de.idFactura = ${idFactura}            ORDER BY fa.id ASC`;
+
+                conn.query(query, (err, rows) => {
+                    if(err){
+                        //console.log(err);
+                        const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
+                        conn.query(queryError, (err, rows) => {
+                            if(err){
+                                //console.log(err);
+                            }else{
+                            }
+                        })
+                    }else{
+                        return resolve(rows)
+                    }
+                })
+            } catch (err) {
+                //console.log(err);
+>>>>>>> erik
                 const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
                 conn.query(queryError, (err, rows) => {
                     if(err){
@@ -192,7 +229,7 @@ class FacturaService{
 
                             conn.query(query, (err, rowsFactura) => {
                                 if(err){
-                                    console.log(err);
+                                    //console.log(err);
                                 }else{
 
                                 }
@@ -206,7 +243,10 @@ class FacturaService{
                                 }else{
                                     idFactura = rowsFactura[0].id;
                                     let queryInsertDetalleFactura = "";
+<<<<<<< HEAD
                                     console.log(" nFactura   "+facturaAsociada);
+=======
+>>>>>>> erik
                                     if(facturaAsociada > 1){
                                         //Agregamos los detalles de la factua
                                         queryInsertDetalleFactura = `INSERT INTO detallefactura (iva, idFactura, idStatusFactura, facturaAsociada) VALUES (19, ${idFactura}, 3, ${facturaAsociada})`;

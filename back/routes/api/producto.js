@@ -23,6 +23,7 @@ router.post("/:codigo/:nombre/:precio/:detalle", async function(req, res, next) 
         const { codigo, nombre, precio, detalle } = req.params;
         const datos = await productoServices.newProducto(codigo, nombre, precio, detalle).then(JSON);
         //Validamos que la consulta este correcta
+        console.log("datos "+datos)
         if(datos === true){
             res.status(200).json({
                 messaje: true,
