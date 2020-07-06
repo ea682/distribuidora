@@ -10,6 +10,7 @@ const tipos = require('./routes/api/tipos');
 const factura = require('./routes/api/factura');
 const vendedor = require('./routes/api/vendedor');
 const cargaExcel = require('./routes/api/uploadExcel');
+const pagos = require('./routes/api/pagos');
 const test = require('./test');
 
 const bodyparser = require('body-parser');
@@ -44,6 +45,7 @@ app.use("/api/vendedor", vendedor);
 app.use("/api/tipos", tipos);
 app.use("/api/factura", factura);
 app.use("/api/localizacion", localizacion);
+app.use("/api/pagos", pagos);
 app.use("/api/auth", authApiRouter);
 try {
   app.use("/api/upload", cargaExcel);

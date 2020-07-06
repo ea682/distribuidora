@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const ProductoServices = require('../../services/producto');
-const productoServices = new ProductoServices();
+const PagosServices = require('../../services/pagos');
+const pagosServices = new PagosServices();
+
 
 router.get("/", async function(req, res, next) {
     try {
-        const datos = await productoServices.getAllProducto().then(JSON);
+        const datos = await pagosServices.getAllPagos().then(JSON);
         res.status(200).json({
             producto: datos,
         });
@@ -18,19 +19,20 @@ router.get("/", async function(req, res, next) {
     }
 });
 
-router.post("/:codigo/:nombre/:precio/:detalle", async function(req, res, next) {
+router.post("/:fecha/:nombreBanco/:monto/:tipoDocumento/:nFactura/:montoTotal", async function(req, res, next) {
     try {
-        const { codigo, nombre, precio, detalle } = req.params;
-        const datos = await productoServices.newProducto(codigo, nombre, precio, detalle).then(JSON);
+        console.log(56);
+        const { fecha, nombreBanco, monto, tipoDocumento, nFactura, montoTotal } = req.params;
+        const datos = await pagosServices.newPago(fecha, nombreBanco, monto, tipoDocumento, nFactura, montoTotal).then(JSON);
         //Validamos que la consulta este correcta
-        console.log("datos "+datos)
+        console.log("datos "+datos);
         if(datos === true){
             res.status(200).json({
-                messaje: true,
+                messaje: datos,
             });
         }else{
             res.status(200).json({
-                messaje: false,
+                messaje: datos,
             });
         }
     } catch (error) {

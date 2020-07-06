@@ -40,7 +40,7 @@ class ListaFactura extends React.Component {
                 cantidad: datos[i]['cantidad'],
                 precioUnitario: datos[i]['precioUnitario'],
                 totalUnitario: datos[i]['totalUnitario'],
-                totalNeto: datos[i]['totalNeto']
+                totalBruto: datos[i]['totalBruto']
             });
         }
         this.setState({ data: row })
@@ -68,7 +68,7 @@ class ListaFactura extends React.Component {
       { title: "Cantidad", field: "cantidad", width: "8%", editor:true},
       { title: "Precio Unitario", field: "precioUnitario", width: "10%", editor:true},
       { title: "Total Linea", field: "totalUnitario", width: "10%", editor:true},
-      { title: "Total Documento", field: "totalNeto", width: "10%", editor:true}
+      { title: "Total Bruto", field: "totalBruto", width: "10%", editor:true}
     ];
     //Opciones de data table
     const options = {
