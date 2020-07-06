@@ -19,6 +19,7 @@ import Home from '../Home/Home';
 import insert from './Carga/insertDatos';
 import pagos from "./Pagos/pagos";
 import listarPagos from './Pagos/ListarPagos'
+import PagoCheque from'./Pagos/PagosCheques'
 
 class Main extends Component {
     render() {
@@ -47,6 +48,7 @@ class Main extends Component {
                       </NavDropdown>
                       <NavDropdown title="Pagos" id="basic-nav-dropdown">
                         <NavDropdown.Item href="#/newPagos">Nuevo Pago</NavDropdown.Item>
+                        <NavDropdown.Item href="#/newPagosCheque">Nuevo Pago cheque</NavDropdown.Item>
                         <NavDropdown.Item href="#/listarPagos">Listar Pagos</NavDropdown.Item>
                       </NavDropdown>
                       <Nav.Link href="#/carga">Carga Datos</Nav.Link>
@@ -69,6 +71,7 @@ class Main extends Component {
                       <Route path="/carga" component={insert}/>
 
                       <Route path="/newPagos" component={pagos}/>
+                      <Route path="/newPagosCheque" component={PagoCheque}/>
                       <Route path="/listarPagos" component={listarPagos}/>
                   </div>
               </div>

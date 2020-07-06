@@ -58,58 +58,85 @@ class pagos extends React.Component{
       <div className="form-page" id="newPagos">
         <h1> Nuevo Pagos</h1>
         <form>
-          <div className = 'form-group'>
-            <label>numero de Factura</label>
-            <input className= 'form-control' type = 'text' name = 'numeroFactura'/>
-          </div>
-          <div className='form-group'>
-            <label>Tipo de factura</label>
-            <select id='cboTipoPago' className='form-control' name='cboTipoPago'>
-            </select>
-          </div>
-          <div className='form-group'>
-            <label>Banco</label>
-            <select id='cboTipoPago' className='form-control' name='cboTipoPago'>
-              <option value="">Selecionar</option>
-              <option value="Banco de Chile">Banco de Chile</option>
-              <option value="Banco Internacional">Banco Internacional</option>
-              <option value="Scotiabank Chile">Scotiabank Chile</option>
-              <option value="Banco de Crédito e Inversiones">Banco de Crédito e Inversiones</option>
-              <option value="Corpbanca">Corpbanca</option>
-              <option value="Banco Bice">Banco Bice</option>
-              <option value="HSBC Bank (Chile)">HSBC Bank (Chile)</option>
-              <option value="Banco Santander">Banco Santander</option>
-              <option value="Banco Itaú Chile">Banco Itaú Chile</option>
-              <option value="Banco Security">Banco Security</option>
-              <option value="Deutsche Bank">Deutsche Bank</option>
-              <option value="Banco RIpley">Banco Ripley</option>
-              <option value="Rabobank Chile">Rabobank Chile</option>
-              <option value="Banco Consorcio">Banco Consorcio</option>
-              <option value="Banco Penta">Banco Penta</option>
-              <option value="Banco Paris">Banco Paris</option>
-              <option value="Banco BTG Pactual Chile">Banco BTG Pactual Chile</option>
-            </select>
-          </div>
-          <div className = 'form-group'>
-            <label>Razon social</label>
-            <input className= 'form-control' type = 'text' name = 'razonSocial' readonly="readonly" />
-          </div>
-          <div className = 'form-group'>
-            <label>Total</label>
-            <input className= 'form-control' type = 'text' name = 'total' readonly="readonly" />
-          </div>
-          <div className = 'form-group'>
-            <label>Monto</label>
-            <input className= 'form-control' type = 'text' name = 'monto'/>
-          </div>
-          <div className = 'form-group'>
-            <label>Fecha</label>
-            <input className= 'form-control' type = 'date' name = 'monto'/>
-          </div>
-          <div className = 'form-group'>
-            <label>id hoja de ruta</label>
-            <input className= 'form-control' type = 'number' name = 'monto'/>
-          </div>
+          <table>
+            <tr>
+              <td>
+                <div className = 'form-group'>
+                  <font>
+                    <label>numero de Factura</label>
+                    <input className= 'form-control' type = 'text' name = 'numeroFactura'/>
+                  </font>
+                </div>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <div className='form-group'>
+                  <font>
+                    <label>Tipo de Factura</label>
+                    <select id='cboTipoPago' className='form-control' name='cboTipoPago'>
+                    </select>
+                  </font>
+                </div>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                  <label>Razon social</label>
+                  <input className= 'form-control' type = 'text' name = 'razonSocial' readonly="readonly" />
+                  </div>
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Total Bruto</label>
+                    <input className= 'form-control' type = 'text' name = 'total' readonly="readonly" />
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Monto</label>
+                    <input className= 'form-control' type = 'number' name = 'monto'/>
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Fecha</label>
+                    <input className= 'form-control' type = 'date' name = 'fecha'/>
+                  </div>
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Saldo documento</label>
+                    <input className= 'form-control' type = 'text' name = 'monto' readonly="readonly"/>
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>id hoja de ruta</label>
+                    <input className= 'form-control' type = 'number' name = 'monto'/>
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+            </tr>
+          </table>
           <button type = 'button' onClick ={this.handleClick} className = 'btn btn-primary'> Guardar </button>
         </form>
       </div>

@@ -500,33 +500,73 @@ class Factura extends React.Component{
       <div id="nuevaFactura" className="form-page">
         <h1> Nueva Factura</h1>
         <form>
-          <div className = 'form-group'>
-            <label>Numero de factura</label>
-            <input onChange={e => this.change(e)} className='form-control' type='text' name='NumFactura'/>
-          </div>
-          <div className = 'form-group'>
-            <label>Tipo de factura</label>
-            <select id='cboFactura' className='form-control' name='cboFactura' onChange={e => this.change(e)}  >
-            </select>
-          </div>
-          <div className='form-group'>
-            <label>Tipo de pago</label>
-            <select id='cboTipoPago' className='form-control' name='cboTipoPago' onChange={e => this.change(e)}  >
-            </select>
-          </div>
-          <div className = 'form-group'>
-            <label>Fecha de documento</label>
-            <input onChange={e => this.change(e)} className= 'form-control' type = 'date' name='fechaDocumento' value= {this.state.comuna}  />
-          </div>
-          <div className = 'form-group'>
-            <label>Fecha de vencimiento</label>
-            <input onChange={e => this.change(e)} className= 'form-control' type = 'date' name='fechaVencimiento' value= {this.state.ciudad}  />
-          </div>
-          <div className = 'form-group'>
-            <label>Clientes</label>
-            <select id='cboClientes' className = 'form-control' name='cboClientes' onChange={e => this.change(e)}>
-            </select>
-          </div>
+          <table>
+            <tr>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Numero de factura</label>
+                    <input onChange={e => this.change(e)} className='form-control' type='text' name='NumFactura'/>
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Tipo de factura</label>
+                    <select id='cboFactura' className='form-control' name='cboFactura' onChange={e => this.change(e)}  >
+                    </select>
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className='form-group'>
+                    <label>Tipo de pago</label>
+                    <select id='cboTipoPago' className='form-control' name='cboTipoPago' onChange={e => this.change(e)}  >
+                    </select>
+                  </div>
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Fecha de documento</label>
+                    <input onChange={e => this.change(e)} className= 'form-control' type = 'date' name='fechaDocumento' value= {this.state.comuna}  />
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Fecha de vencimiento</label>
+                    <input onChange={e => this.change(e)} className= 'form-control' type = 'date' name='fechaVencimiento' value= {this.state.ciudad}  />
+                  </div>
+                </font>
+              </td>
+              <td></td><td></td><td></td><td></td>
+              <td>
+                <font>
+                  <div className = 'form-group'>
+                    <label>Clientes</label>
+                    <select id='cboClientes' className = 'form-control' name='cboClientes' onChange={e => this.change(e)}>
+                    </select>
+              </div>
+                </font>
+              </td>
+            </tr>
+          </table>
+         
+          
+          
+          
+          
+          
           <div className='form-group'>
             <label>Productos</label>
             <div style={{height: "60px"}}>
