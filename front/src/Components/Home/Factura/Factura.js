@@ -4,6 +4,8 @@ import api from '../../config/Api';
 
 import deleteCbo from '../../img/eliminar.svg';
 import addCbo from '../../img/check.svg';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import './style.css';
 import '../form.css';
@@ -20,7 +22,8 @@ class Factura extends React.Component{
       fechaDocumento : '',
       fechaVencimiento : '',
       arrayProductos: '',
-      arrayProductos2: ''
+      arrayProductos2: '',
+      jsonClientes: ''
     };
   }
 
@@ -173,28 +176,9 @@ class Factura extends React.Component{
   llenarClientes(){
     axios.get(api+'/api/clientes', {
     }).then(res => {
-      let datos = res.data.clientes;
-
-      let cboClientes = document.getElementById("cboClientes");
-
-      //Creamos la opcion seleccionar
-      let opt = document.createElement("option");
-      opt.value = 0;
-      opt.textContent = "Select...";
-      cboClientes.options.add(opt);
-
-      for (let i = 0; i < datos.length; i++) {
-        //Creamos elemento
-        opt = document.createElement("option");
-        //Le damos valor
-        opt.value = datos[i].id;
-        //Le damos el texto
-        opt.textContent = datos[i].nombreCliente;
-        cboClientes.options.add(opt);
-        //const element = array[index];
-        
-      }
-      return res.data.clientes;
+      let clientes = res.data.clientes;
+      this.setState({ jsonClientes : clientes});
+      console.log(this.state.jsonClientes);
     })
     .catch(err => {
       console.log(err);
@@ -554,8 +538,15 @@ class Factura extends React.Component{
                 <font>
                   <div className = 'form-group'>
                     <label>Clientes</label>
-                    <select id='cboClientes' className = 'form-control' name='cboClientes' onChange={e => this.change(e)}>
-                    </select>
+                    <Autocomplete
+                      id="cboClientes"
+                      name="cboClientes"
+                      options={this.state.jsonClientes}
+                      getOptionLabel={(option) => option.nombreCliente}
+                      style={{ width: 300 }}
+                      renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" 
+                      onChange={e => this.change(e)}/>}
+                    />
               </div>
                 </font>
               </td>
