@@ -8,6 +8,7 @@ class PagosCheques extends React.Component{
   constructor(props) {
     super(props);
     this.change = this.change.bind(this);
+    this.consultaCuenta = this.consultaCuenta.bind(this);
   }
 
   change(e) {
@@ -53,6 +54,60 @@ class PagosCheques extends React.Component{
     })
   }
   
+  consultaCuenta(e){
+    let numeroCuentaBuscar = e.target.value;
+
+    fetch(`${api}/api/factura/buscarFactura/${numeroCuentaBuscar}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(datos => datos.json())
+    .then((result) => {
+      try {
+        console.log(result.data[0]);
+        let datosR = result.data[0];
+        let tipoFactura = datosR['nombreTipoFactura'];
+        let codigoFactura2 = datosR['idFactura'];
+        
+
+        this.setState({
+          codigoFactura : codigoFactura2
+        });
+
+        let cboVendedores = document.getElementById("cboTipoPago");
+        let opt = document.createElement("option");
+        opt.value = 0;
+        opt.id = "cbopTipo";
+        opt.textContent = tipoFactura;
+        cboVendedores.options.add(opt);
+
+      } catch (error) {
+        //let concatNombreId = `conProducto${contadorElementos}`;
+        //Eliminalos el div
+        //document.getElementById('cbopTipo').remove();
+      }
+    },
+    (error) => {
+      
+    })
+    //document.getElementById('cbopTipo').remove();
+  }
+
+  handleClick =(e)=>{
+    let datos = this.state;
+    let banco = document.getElementById("cboBanco").value;
+    console.log(datos);
+    axios.post(`${api}/api/pagos/cheques/${datos.fecha}/${banco}/${datos.hojaRuta}/${datos.monto}/${datos.codigoFactura}`)
+    .then(res => {
+      console.log(datos);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
   render(){
     return(
       <div className="form-page" id="newPagos">
@@ -64,7 +119,7 @@ class PagosCheques extends React.Component{
                         <div className = 'form-group'>
                         <font>
                             <label>numero de cheque</label>
-                            <input className= 'form-control' type = 'text' name = 'numeroFactura'/>
+                            <input className= 'form-control' type = 'text' name = 'numeroFactura' onChange={this.change}/>
                         </font>
                         </div>
                     </td>
@@ -73,7 +128,7 @@ class PagosCheques extends React.Component{
                         <div className='form-group'>
                             <font>
                             <label>Banco</label>
-                            <select id='cboTipoPago' className='form-control' name='cboTipoPago'>
+                            <select id='cboBanco' className='form-control' name='banco'>
                             <option value="">Selecionar</option>
                             <option value="Banco de Chile">Banco de Chile</option>
                             <option value="Banco Internacional">Banco Internacional</option>
@@ -102,7 +157,7 @@ class PagosCheques extends React.Component{
                         <font>
                         <div className = 'form-group'>
                             <label>numero de factura</label>
-                            <input className= 'form-control' type = 'text' name = 'numero de factura'/>
+                            <input className='form-control' type='text' name='numero de factura' onChange={this.consultaCuenta}/>
                         </div>
                         </font>
                     </td>
@@ -122,7 +177,7 @@ class PagosCheques extends React.Component{
                         <font>
                             <div className = 'form-group'>
                                 <label>Fecha vencimiento</label>
-                                <input className= 'form-control' type = 'date' name = 'fecha'/>
+                                <input className= 'form-control' type = 'date' name = 'fecha' onChange={this.change}/>
                             </div>
                         </font>
                     </td>
@@ -131,7 +186,7 @@ class PagosCheques extends React.Component{
                         <font>
                         <div className = 'form-group'>
                             <label>Monto a pagar</label>
-                            <input className= 'form-control' type = 'number' name = 'monto'/>
+                            <input className= 'form-control' type = 'number' name = 'monto' onChange={this.change}/>
                         </div>
                         </font>
                     </td>
@@ -141,7 +196,7 @@ class PagosCheques extends React.Component{
                         <font>
                         <div className = 'form-group'>
                             <label>hoja de ruta</label>
-                            <input className= 'form-control' type = 'number' name = 'monto'/>
+                            <input className= 'form-control' type = 'number' name = 'hojaRuta' onChange={this.change}/>
                         </div>
                         </font>
                     </td>

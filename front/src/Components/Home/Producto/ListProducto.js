@@ -45,9 +45,9 @@ class ListProducto extends React.Component {
         console.log(value);
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "Codigo", field: "codigo", width: "20%", editor:true},
+      { title: "Codigo", field: "codigo", width: "20%", editor:true, headerFilter:"input"},
       { title: "Nombre Producto", field: "nombreProducto", width: "30%", editor:true},
-      { title: "Detalle", field: "descripcion", width: "30%", editor:true}
+      { title: "Detalle", field: "descripcion", width: "30%", editor:true, headerFilter:"input"}
     ];
     //Opciones de data table
     const options = {

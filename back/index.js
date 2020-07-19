@@ -11,6 +11,7 @@ const factura = require('./routes/api/factura');
 const vendedor = require('./routes/api/vendedor');
 const cargaExcel = require('./routes/api/uploadExcel');
 const pagos = require('./routes/api/pagos');
+const cheque = require('./routes/api/chuque');
 const test = require('./test');
 
 const bodyparser = require('body-parser');

@@ -54,19 +54,19 @@ class ListaFactura extends React.Component {
         let value = cell.getValue();
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "RUT", field: "rut", width: "9%"},
-      { title: "Nombre Cliente", field: "nombreCliente", width: "15%", editor:true},
+      { title: "RUT", field: "rut", width: "9%", headerFilter:"input"},
+      { title: "Nombre Cliente", field: "nombreCliente", width: "15%", editor:true, headerFilter:"input"},
       { title: "Direccion Cliente", field: "direccion", width: "15%", editor:true},
-      { title: "GIRO", field: "giro", width: "7%", editor:true},
-      { title: "Codigo Vendedor", field: "rutVendedor", width: "7%", editor:true},
+      { title: "GIRO", field: "giro", width: "7%", editor:true, headerFilter:"input"},
+      { title: "Codigo Vendedor", field: "rutVendedor", width: "7%", editor:true, headerFilter:"input"},
       { title: "Telefono", field: "telefono", width: "10%", editor:true},
-      { title: "Nombre DOC", field: "nombreTipoFactura", width: "10%", editor:true},
-      { title: "Numero DOC", field: "nFactura", width: "10%", editor:true},
-      { title: "Fecha Documento", field: "fechaDocumento", width: "10%", editor:true},
-      { title: "COD. Producto", field: "codigo", width: "10%", editor:true},
-      { title: "Desc. Producto", field: "descripcion", width: "10%", editor:true},
-      { title: "Cantidad", field: "cantidad", width: "8%", editor:true},
-      { title: "Precio Unitario", field: "precioUnitario", width: "10%", editor:true},
+      { title: "Nombre DOC", field: "nombreTipoFactura", width: "10%", editor:true, headerFilter:"input"},
+      { title: "Numero DOC", field: "nFactura", width: "10%", editor:true, headerFilter:"input"},
+      { title: "Fecha Documento", field: "fechaDocumento", width: "10%", editor:true, headerFilter:"input"},
+      { title: "COD. Producto", field: "codigo", width: "10%", editor:true, headerFilter:"input"},
+      { title: "Desc. Producto", field: "descripcion", width: "10%", editor:true, headerFilter:"input"},
+      { title: "Cantidad", field: "cantidad", width: "8%", editor:true, headerFilter:"input"},
+      { title: "Precio Unitario", field: "precioUnitario", width: "10%", editor:true, headerFilter:"input"},
       { title: "Total Linea", field: "totalUnitario", width: "10%", editor:true},
       { title: "Total Bruto", field: "totalBruto", width: "10%", editor:true}
     ];
@@ -86,11 +86,6 @@ class ListaFactura extends React.Component {
     };
     return (
       <div>
-        <div>
-          <div>
-            <button id="print-table">Print Table</button>
-        </div>
-        </div>
         <React15Tabulator columns={columns} data={this.state.data} options={options}/>
       </div>
     );

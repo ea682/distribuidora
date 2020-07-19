@@ -4,6 +4,8 @@
   "private": true,
   "proxi": "http://localhost:8000",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -15,9 +17,10 @@
     "ag-grid-react": "^23.1.1",
     "all": "0.0.0",
     "axios": "^0.19.2",
-    "boostrap": "^2.0.0",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.0",
+    "material-table": "^1.65.0",
     "nodemon": "^2.0.3",
+    "popper.js": "^1.16.1",
     "react": "^16.13.0",
     "react-background-slideshow": "^1.0.4",
     "react-bootstrap": "^1.0.1",
@@ -27,7 +30,8 @@
     "react-scripts": "^3.4.0",
     "react-tabulator": "^0.12.7",
     "tabulator-tables": "^4.7.0",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "xlsx": "^0.16.4"
   },
   "scripts": {
     "start": "react-scripts start",

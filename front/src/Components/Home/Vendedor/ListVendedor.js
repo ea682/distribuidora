@@ -45,10 +45,10 @@ class ListVendedor extends React.Component {
         console.log(value);
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "Codigo", field: "codigo", width: "20%", color: "red", editor:true},
-      { title: "Nombre Vendedor", width: "20%", field: "nombreVendedor", editor:true},
-      { title: "Direccion", field: "direccion", width: "20%", editor:true},
-      { title: "Comision", field: "comision", width: "20%", editor:true}
+      { title: "Codigo", field: "codigo", width: "20%", color: "red", editor:true, headerFilter:"input"},
+      { title: "Nombre Vendedor", width: "20%", field: "nombreVendedor", editor:true, headerFilter:"input"},
+      { title: "Direccion", field: "direccion", width: "20%", editor:true, headerFilter:"input"},
+      { title: "Comision", field: "comision", width: "20%", editor:true, headerFilter:"input"}
     ];
     //Opciones de data table
     const options = {

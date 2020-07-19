@@ -4,6 +4,9 @@ const { conn } = require('../lib/mariadb');
 const ClientesServices = require('./clientes');
 const clientesServices = new ClientesServices();
 
+const LogService = require('./log');
+const logService = new LogService();
+
 class FacturaService{
 
     getAllFactura(){
@@ -14,7 +17,6 @@ class FacturaService{
                 conn.query(query, (err, rows) => {
                     if(err){
                         //console.log(err);
-<<<<<<< HEAD
                         const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
                         conn.query(queryError, (err, rows) => {
                             if(err){
@@ -38,16 +40,72 @@ class FacturaService{
         });
     }
 
-    getFactura(idFactura){
+    getFactura(numeroCuenta){
         return new Promise(function (resolve, reject){
             try {
-                const query = `SELECT                fa.id,                de.id,                proF.id,                cli.rut,                cli.nombreCliente,                cli.direccion,                cli.giro,                v.codigo as 'rutVendedor',                cli.telefono,                tf.nombreTipoFactura,                fa.numeroFactura as 'nFactura',                fa.fechaDocumento,                pro.codigo,                pro.descripcion,                proF.cantidad,                prof.precioUnitario,                CASE                    WHEN cantidad < 0 THEN ROUND((prof.precioUnitario*proF.cantidad))*-1                    WHEN cantidad > 0 THEN ROUND((prof.precioUnitario*proF.cantidad))                    ELSE 'Fallo Interno'                    END AS 'totalUnitario',                (                 SELECT CASE                         WHEN sumP.cantidad < 0 THEN ROUND(SUM(((sumP.cantidad * sumP.precioUnitario))*1.19)-1)                         WHEN sumP.cantidad > 0 THEN ROUND(SUM((sumP.cantidad * sumP.precioUnitario))*1.19)                         ELSE 'Fallo'                         END AS 'Total'                     FROM productosfactura AS sumP                     INNER JOIN detalleFactura AS sumD                     ON sump.idDetalleFacura = sumD.id                     INNER JOIN factura AS sumF                     ON sumD.idFactura = sumF.id                     WHERE sumF.numeroFactura = fa.numeroFactura                     ) AS 'totalNeto'             FROM                factura AS fa                 INNER JOIN                   detalleFactura AS de                    ON fa.id = de.idFactura                 INNER JOIN                   productosfactura AS proF                    ON proF.idDetalleFacura = de.id                INNER JOIN                   tipofactura AS tf                    ON fa.idTipoFactura = tf.id                 INNER JOIN                   tipopago AS tp                    ON fa.idTipoPago = tp.id                 INNER JOIN                   cliente AS cli                    ON fa.idCliente = cli.id                 INNER JOIN                   vendedor AS v                    ON cli.idVendedor = v.id                 INNER JOIN                   statusfactura AS sf                    ON de.idStatusFactura = sf.id                 INNER JOIN                   producto AS pro                    ON proF.idProducto = pro.id    WHERE de.idFactura = ${idFactura}            ORDER BY fa.id ASC`;
+                const query = `SELECT  	fa.id AS idFactura,                                
+                de.id,  	                
+                de.facturaAsociada,                              
+                proF.id,                                
+                cli.rut,                                
+                cli.nombreCliente,                                
+                cli.direccion,                                
+                cli.giro,                                
+                v.codigo as 'rutVendedor',                               
+                cli.telefono,                                
+                tf.nombreTipoFactura,                                
+                fa.numeroFactura as 'nFactura',                                
+                fa.fechaDocumento,                
+                pro.codigo,                                
+                pro.descripcion,                                
+                proF.cantidad,                                
+                prof.precioUnitario,
+                    CASE                                        
+                        WHEN cantidad < 0 THEN ROUND((prof.precioUnitario*proF.cantidad))*-1                                      					  WHEN cantidad > 0 THEN ROUND((prof.precioUnitario*proF.cantidad))                                        							ELSE 'Fallo Interno'                                        
+                            END AS 'totalUnitario',                                    
+                            (  
+                                SELECT                                 
+                                        CASE                                                             
+                                            WHEN sumP.cantidad < 0 THEN ROUND(SUM(((sumP.cantidad * sumP.precioUnitario))*1.19)-1)                                    WHEN sumP.cantidad > 0 THEN ROUND(SUM((sumP.cantidad * sumP.precioUnitario))*1.19)- 
+                                                    (SELECT 
+                                                            CASE                                    
+                                                                WHEN pa.monto IS not NULL then SUM(pa.monto)                                     													  ELSE 0                                    
+                                                                END AS total123                                   
+                                                                FROM pagos AS pa                                    
+                                                                INNER JOIN  factura AS f 
+                                                                ON f.id = pa.IdFactura                                    
+                                                                WHERE F.id = fa.id)                                    
+                                ELSE 'Fallo'                                                             
+                                END AS 'Total'                                                         
+                                FROM productosfactura AS sumP                                                         
+                                INNER JOIN detalleFactura AS sumD                                                         
+                                ON sump.idDetalleFacura = sumD.id                                                         
+                                INNER JOIN factura AS sumF                                                        
+                                ON sumD.idFactura = sumF.id                                                        
+                                WHERE sumF.numeroFactura = fa.numeroFactura                                        
+                ) AS 'totalBruto'                                 
+                FROM factura AS fa                                     
+                INNER JOIN detalleFactura AS de                                        
+                ON fa.id = de.idFactura                                     
+                INNER JOIN productosfactura AS proF                                        
+                ON proF.idDetalleFacura = de.id                                    
+                INNER JOIN tipofactura AS tf                                       
+                ON fa.idTipoFactura = tf.id                                     
+                INNER JOIN  tipopago AS tp                                       
+                ON fa.idTipoPago = tp.id                                     
+                INNER JOIN  cliente AS cli                                        
+                ON fa.idCliente = cli.id                                     
+                INNER JOIN vendedor AS v                                        
+                ON cli.idVendedor = v.id                                     
+                INNER JOIN statusfactura AS sf                                       
+                ON de.idStatusFactura = sf.id                        
+                INNER JOIN  producto AS pro                                        
+                ON proF.idProducto = pro.id
+                WHERE fa.numeroFactura = ${numeroCuenta}`;
 
                 conn.query(query, (err, rows) => {
                     if(err){
                         //console.log(err);
-=======
->>>>>>> ebe0e65f62d1cce6aa242ee9526d94b405b743b3
                         const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
                         conn.query(queryError, (err, rows) => {
                             if(err){
@@ -61,40 +119,6 @@ class FacturaService{
                 })
             } catch (err) {
                 //console.log(err);
-<<<<<<< HEAD
-=======
-                const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
-                conn.query(queryError, (err, rows) => {
-                    if(err){
-                    }else{
-                    }
-                })
-            }
-        });
-    }
-
-    getFactura(idFactura){
-        return new Promise(function (resolve, reject){
-            try {
-                const query = `SELECT                fa.id,                de.id,                proF.id,                cli.rut,                cli.nombreCliente,                cli.direccion,                cli.giro,                v.codigo as 'rutVendedor',                cli.telefono,                tf.nombreTipoFactura,                fa.numeroFactura as 'nFactura',                fa.fechaDocumento,                pro.codigo,                pro.descripcion,                proF.cantidad,                prof.precioUnitario,                CASE                    WHEN cantidad < 0 THEN ROUND((prof.precioUnitario*proF.cantidad))*-1                    WHEN cantidad > 0 THEN ROUND((prof.precioUnitario*proF.cantidad))                    ELSE 'Fallo Interno'                    END AS 'totalUnitario',                (                 SELECT CASE                         WHEN sumP.cantidad < 0 THEN ROUND(SUM(((sumP.cantidad * sumP.precioUnitario))*1.19)-1)                         WHEN sumP.cantidad > 0 THEN ROUND(SUM((sumP.cantidad * sumP.precioUnitario))*1.19)                         ELSE 'Fallo'                         END AS 'Total'                     FROM productosfactura AS sumP                     INNER JOIN detalleFactura AS sumD                     ON sump.idDetalleFacura = sumD.id                     INNER JOIN factura AS sumF                     ON sumD.idFactura = sumF.id                     WHERE sumF.numeroFactura = fa.numeroFactura                     ) AS 'totalNeto'             FROM                factura AS fa                 INNER JOIN                   detalleFactura AS de                    ON fa.id = de.idFactura                 INNER JOIN                   productosfactura AS proF                    ON proF.idDetalleFacura = de.id                INNER JOIN                   tipofactura AS tf                    ON fa.idTipoFactura = tf.id                 INNER JOIN                   tipopago AS tp                    ON fa.idTipoPago = tp.id                 INNER JOIN                   cliente AS cli                    ON fa.idCliente = cli.id                 INNER JOIN                   vendedor AS v                    ON cli.idVendedor = v.id                 INNER JOIN                   statusfactura AS sf                    ON de.idStatusFactura = sf.id                 INNER JOIN                   producto AS pro                    ON proF.idProducto = pro.id    WHERE de.idFactura = ${idFactura}            ORDER BY fa.id ASC`;
-
-                conn.query(query, (err, rows) => {
-                    if(err){
-                        //console.log(err);
-                        const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
-                        conn.query(queryError, (err, rows) => {
-                            if(err){
-                                //console.log(err);
-                            }else{
-                            }
-                        })
-                    }else{
-                        return resolve(rows)
-                    }
-                })
-            } catch (err) {
-                //console.log(err);
->>>>>>> ebe0e65f62d1cce6aa242ee9526d94b405b743b3
                 const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
                 conn.query(queryError, (err, rows) => {
                     if(err){
@@ -115,16 +139,9 @@ class FacturaService{
                         if(err.errno == 1062){
                             return resolve("rep");
                         }else{
-                            //console.log(err);
-                            const queryError = `INSERT INTO log (nError, sqlMessage, sqlm) VALUES ("${err.errno}", "${err.sqlMessage}", "${err.sql}")`;
-                            conn.query(queryError, (err, rows) => {
-                                if(err){
-                                }else{
-                                }
-                            })
+                            logService.newLog(err.errno, err.sqlMessage, err.sql);
                             return resolve(false);
                         }
-                        
                     }else{
                         let idFactura = rows.insertId;
                         datos = datos.split(',');
@@ -144,6 +161,7 @@ class FacturaService{
                                     const queryError = `INSERT INTO log (nError, sqlMessage, sqlm) VALUES ("${err.errno}", "${err.sqlMessage}", "${err.sql}")`;
                                     conn.query(queryError, (err, rows) => {
                                         if(err){
+                                            logService.newLog(err.errno, err.sqlMessage, err.sql);
                                         }else{
                                         }
                                     })
@@ -153,13 +171,7 @@ class FacturaService{
                                     const query = `INSERT INTO productosFactura (cantidad, precioUnitario, idProducto, idDetalleFacura) VALUES ('${cantidad}', '${precio}', '${idProducto}', '${idDetalle}');`
                                     conn.query(query, (err, rowsDetalle) => {
                                         if(err){
-                                            //console.log(err);
-                                            const queryError = `INSERT INTO log (nError, sqlMessage, sqlm) VALUES ("${err.errno}", "${err.sqlMessage}", "${err.sql}")`;
-                                            conn.query(queryError, (err, rows) => {
-                                                if(err){
-                                                }else{
-                                                }
-                                            })
+                                            logService.newLog(err.errno, err.sqlMessage, err.sql);
                                             return resolve(false);
                                         }else{
                                             return resolve(true);
@@ -178,6 +190,7 @@ class FacturaService{
             const queryError = `INSERT INTO log (nError, sqlMessage, sqlm) VALUES ("${err.errno}", "${err.sqlMessage}", "${err.sql}")`;
             conn.query(queryError, (err, rows) => {
                 if(err){
+                    logService.newLog(err.errno, err.sqlMessage, err.sql);
                 }else{
                 }
             })
@@ -198,16 +211,19 @@ class FacturaService{
         //Realizamos la consulta y recorremos los datos.
         conn.query(query, (err,rowsTipoFactura) => {
             if(err){
-                //console.log(err);
+                logService.newLog(err.errno, err.sqlMessage, err.sql);
             }else{
                 //Obtenemos el id.
-                idTipoFactura = rowsTipoFactura[0].id
+                //console.log(tipoFactura);
+                //console.log(numeroFactura);
+                try {
+                    idTipoFactura = rowsTipoFactura[0].id
                 //Obtenemos el id del cliente
                 const query = `SELECT id FROM cliente WHERE rut = '${rutCliente}'`;
                 //Realizamos la consulta y recorremos los datos.
                 conn.query(query, (err,rowsCliente) => {
                     if(err){
-                        //console.log(err);
+                        logService.newLog(err.errno, err.sqlMessage, err.sql);
                     }else{
                         if(rowsCliente[0] === "[]" || rowsCliente[0] === undefined)
                         {
@@ -215,13 +231,20 @@ class FacturaService{
                         }else{
                             idCliente = rowsCliente[0].id
                             //Las fechas estan numericas, las coonverimos nuevamente a fechas.
-                            fechaDocumento = this.numeroAFecha(fechaDocumento, true);
+                            try {
+                                fechaDocumento = this.numeroAFecha(fechaDocumento, true);
+                            } catch (error) {
+                                let arrayFechaDocumento = fechaDocumento.split('/');
+                                fechaDocumento = `${arrayFechaDocumento[2]}-${arrayFechaDocumento[1]}-${arrayFechaDocumento[0]}`;
+                            }
+                            
 
                             //En caso que no venga la fecha, le asignamos la del documento
                             try {
                                 fechaVencimiento = this.numeroAFecha(fechaVencimiento, true);
                             } catch (error) {
-                                fechaVencimiento = fechaDocumento;
+                                let arrayFechaV = fechaVencimiento.split('/');
+                                fechaVencimiento = `${arrayFechaV[2]}-${arrayFechaV[1]}-${arrayFechaV[0]}`;
                             }
                             
 
@@ -229,7 +252,7 @@ class FacturaService{
 
                             conn.query(query, (err, rowsFactura) => {
                                 if(err){
-                                    //console.log(err);
+                                    logService.newLog(err.errno, err.sqlMessage, err.sql);
                                 }else{
 
                                 }
@@ -241,12 +264,9 @@ class FacturaService{
                             conn.query(queryGetIdFactura, (err, rowsFactura) => {
                                 if(err){
                                 }else{
+                                    //console.log(queryGetIdFactura);
                                     idFactura = rowsFactura[0].id;
                                     let queryInsertDetalleFactura = "";
-<<<<<<< HEAD
-                                    console.log(" nFactura   "+facturaAsociada);
-=======
->>>>>>> ebe0e65f62d1cce6aa242ee9526d94b405b743b3
                                     if(facturaAsociada > 1){
                                         //Agregamos los detalles de la factua
                                         queryInsertDetalleFactura = `INSERT INTO detallefactura (iva, idFactura, idStatusFactura, facturaAsociada) VALUES (19, ${idFactura}, 3, ${facturaAsociada})`;
@@ -257,7 +277,7 @@ class FacturaService{
                                     }
                                     conn.query(queryInsertDetalleFactura, (err, rowsFactura) => {
                                         if(err){
-                                            console.log(err);
+                                            logService.newLog(err.errno, err.sqlMessage, err.sql);
                                         }else{
                                             //Obtenemos el id de la insercion.
                                             let idInsert = rowsFactura.insertId;
@@ -266,6 +286,7 @@ class FacturaService{
 
                                             conn.query(queryIdProducto, (err, rowsFactura) => {
                                                 if(err){
+                                                    logService.newLog(err.errno, err.sqlMessage, err.sql);
                                                 }else{
                                                     idCodigoProducto = rowsFactura[0].id;
                                                     //Agregamos los detalles de la factua
@@ -273,7 +294,7 @@ class FacturaService{
 
                                                     conn.query(queryInsertProduto, (err, rowsFactura) => {
                                                         if(err){
-                                                            //console.log(err);
+                                                            logService.newLog(err.errno, err.sqlMessage, err.sql);
                                                         }else{
                                                             return true;
                                                         }
@@ -288,6 +309,9 @@ class FacturaService{
                     }
                     
                 });
+                } catch (error) {
+                    
+                }
             }
         });
     }
@@ -328,7 +352,7 @@ class FacturaService{
     validarStatus(monto, montoBruto){
         console.log(`Monto : ${monto}   total : ${montoBruto}`);
         //Validamos que es un error
-        if(monto <= 0 || monto > montoBruto){
+        if(parseInt(monto) <= 0 || parseInt(monto) > parseInt(montoBruto)){
             return false;
         }else{
             //Esta abonado

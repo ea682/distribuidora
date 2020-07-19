@@ -4,7 +4,7 @@ const { conn } = require('../lib/mariadb');
 class LogService{
     getAllLog(){
         return new Promise(function (resolve, reject){
-            const query = "select * from log";
+            const query = 'select * from log';
 
             conn.query(query, (err, rows) => {
                 if(err) throw err;
@@ -13,17 +13,24 @@ class LogService{
         });
     }
 
-    newLog(error, nError, sqlMessage, sql){
+    newLog(error, nError, sqlMessage){
         return new Promise(function (resolve, reject){
-            const query = `INSERT INTO log (error, nError, sqlMessage, sql) VALUES ('${error}','${nError}', '${sqlMessage}', '${sql}');`;
-            conn.query(query, (err, rows) => {
+
+            //Eliminamos los caracteres que causen un error
+            sqlMessage =  sqlMessage.replace(/\/'/g,'"').replace(/\/,/g,'');
+            sqlMessage =  sqlMessage.replace(/\/,/g,'');
+            nError = nError.replace(/\/,/g,'');
+            if(error !== 1062){
+                const query = `INSERT INTO log (error, nError, sqlMessage, sql) VALUES ('${error}','${nError}', '${sqlMessage}');`;
+                conn.query(query, (err, rows) => {
                 if(err){
                     console.log(err);
                     return resolve(err);
                 }else{
                     return resolve(true);
                 }
-            });
+                });
+            }
         });
     }
 }

@@ -8,6 +8,10 @@ class pagos extends React.Component{
   constructor(props) {
     super(props);
     this.change = this.change.bind(this);
+    this.llenarDatos = this.llenarDatos.bind(this);
+    this.consultaCuenta = this.consultaCuenta.bind(this);
+    this.validarMontoYbruto = this.validarMontoYbruto.bind(this);
+    this.addMonto = this.addMonto.bind(this);
   }
 
   change(e) {
@@ -52,7 +56,97 @@ class pagos extends React.Component{
       console.log(err);
     })
   }
+
+  llenarDatos(razonSocial, bruto){
+    document.getElementsByName("razonSocial")[0].value = razonSocial;
+    document.getElementsByName("totalBruto")[0].value = bruto;
+  }
+
+  validarMontoYbruto(bruto){
+    document.getElementsByName("monto")[0].value = bruto;
+    document.getElementsByName("saldoDocumento")[0].value = 0;
+  }
+
+  addMonto(e){
+
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    let monto = e.target.value;
+    let bruto = document.getElementsByName("totalBruto")[0].value;
+
+    let subTotal = bruto - monto;
+    document.getElementsByName("saldoDocumento")[0].value = subTotal;
+
+    if(subTotal < 0){
+      alert("No se puede guardar por que es negativo");
+    }
+  }
   
+  consultaCuenta(e){
+    let numeroCuentaBuscar = e.target.value;
+
+    fetch(`${api}/api/factura/buscarFactura/${numeroCuentaBuscar}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(datos => datos.json())
+    .then((result) => {
+      try {
+        console.log(result.data[0]);
+        let datosR = result.data[0];
+        let rz = datosR['nombreCliente'];
+        let bruto = datosR['totalBruto'];
+        let tipoFactura = datosR['nombreTipoFactura'];
+        let codigoFactura = datosR['idFactura'];
+
+        this.setState({
+          totalBruto : bruto,
+          codigoFactura : codigoFactura
+        });
+
+        this.llenarDatos(rz, bruto);
+
+        let cboVendedores = document.getElementById("cboTipoPago");
+        let opt = document.createElement("option");
+        opt.value = 0;
+        opt.id = "cbopTipo";
+        opt.textContent = tipoFactura;
+        cboVendedores.options.add(opt);
+
+      } catch (error) {
+        this.llenarDatos("", "");
+        //let concatNombreId = `conProducto${contadorElementos}`;
+        //Eliminalos el div
+        //document.getElementById('cbopTipo').remove();
+      }
+    },
+    (error) => {
+      
+    })
+    this.llenarDatos("", "");
+    //document.getElementById('cbopTipo').remove();
+  }
+
+  handleClick =(e)=>{
+    let subTotal = document.getElementsByName("saldoDocumento")[0].value;
+    if(subTotal >= 0){
+      let datos = this.state;
+      console.log(datos);
+      axios.post(`${api}/api/pagos/${datos.fecha}/${datos.monto}/${datos.codigoFactura}/${datos.totalBruto}`)
+      .then(res => {
+        console.log(datos);
+      })
+      .catch(err => {
+        this.resultError();
+      })
+    }else{
+      alert("El saldo del documento no puede ser negativo");
+    }
+  }
+
   render(){
     return(
       <div className="form-page" id="newPagos">
@@ -64,7 +158,7 @@ class pagos extends React.Component{
                 <div className = 'form-group'>
                   <font>
                     <label>numero de Factura</label>
-                    <input className= 'form-control' type = 'text' name = 'numeroFactura'/>
+                    <input className='form-control' type='text' name='numeroFactura' onChange={this.consultaCuenta}/>
                   </font>
                 </div>
               </td>
@@ -83,7 +177,7 @@ class pagos extends React.Component{
                 <font>
                   <div className = 'form-group'>
                   <label>Razon social</label>
-                  <input className= 'form-control' type = 'text' name = 'razonSocial' readonly="readonly" />
+                  <input className='form-control' type='text' name='razonSocial' readonly="readonly" />
                   </div>
                 </font>
               </td>
@@ -93,7 +187,7 @@ class pagos extends React.Component{
                 <font>
                   <div className = 'form-group'>
                     <label>Total Bruto</label>
-                    <input className= 'form-control' type = 'text' name = 'total' readonly="readonly" />
+                    <input className='form-control' type='text' name='totalBruto' readonly="readonly" />
                   </div>
                 </font>
               </td>
@@ -102,7 +196,7 @@ class pagos extends React.Component{
                 <font>
                   <div className = 'form-group'>
                     <label>Monto</label>
-                    <input className= 'form-control' type = 'number' name = 'monto'/>
+                    <input className='form-control' type='number' name='monto' onChange={this.addMonto}/>
                   </div>
                 </font>
               </td>
@@ -111,7 +205,7 @@ class pagos extends React.Component{
                 <font>
                   <div className = 'form-group'>
                     <label>Fecha</label>
-                    <input className= 'form-control' type = 'date' name = 'fecha'/>
+                    <input className='form-control' type='date' name='fecha' onChange={this.change}/>
                   </div>
                 </font>
               </td>
@@ -121,7 +215,7 @@ class pagos extends React.Component{
                 <font>
                   <div className = 'form-group'>
                     <label>Saldo documento</label>
-                    <input className= 'form-control' type = 'text' name = 'monto' readonly="readonly"/>
+                    <input className= 'form-control' type='text' name='saldoDocumento' readonly="readonly"/>
                   </div>
                 </font>
               </td>
@@ -130,7 +224,7 @@ class pagos extends React.Component{
                 <font>
                   <div className = 'form-group'>
                     <label>id hoja de ruta</label>
-                    <input className= 'form-control' type = 'number' name = 'monto'/>
+                    <input className='form-control' type='number' name = 'hojaRuta' onChange={this.change}/>
                   </div>
                 </font>
               </td>

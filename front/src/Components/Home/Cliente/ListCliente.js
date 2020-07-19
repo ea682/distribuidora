@@ -48,12 +48,12 @@ class ListClientes extends React.Component {
         console.log(value);
         return "<button  type='button' class='btn btn-danger btn-sm'>Eliminar</button>  <button  type='button' class='btn btn-success btn-sm'>Guardar</button>";
       }},
-      { title: "RUT", field: "rut", color: "red", editor:true},
-      { title: "Nombre Cliente", field: "nombreCliente", editor:true},
-      { title: "Direccion", field: "direccion", editor:true},
+      { title: "RUT", field: "rut", color: "red", editor:true, headerFilter:"input"},
+      { title: "Nombre Cliente", field: "nombreCliente", editor:true, headerFilter:"input"},
+      { title: "Direccion", field: "direccion", editor:true, headerFilter:"input"},
       { title: "Telefono", field: "telefono", editor:true},
-      { title: "Giro", field: "giro", editor:true},
-      { title: "Nombre Vendedor", field: "nombreVendedor", editor:true}
+      { title: "Giro", field: "giro", editor:true, headerFilter:"input"},
+      { title: "Nombre Vendedor", field: "nombreVendedor", editor:true, headerFilter:"input"}
     ];
     //Opciones de data table
     const options = {

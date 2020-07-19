@@ -96,3 +96,16 @@ crear casilla con pagos.
 --Lista de bancos agregar
 --Lista de banco tiene select
 --Unico
+
+
+
+
+----------------------------------------------------------------------------
+Nuevos cambios, si el monto es mayor al bruto, y queda negativo no tiene que dejar guardar.
+
+---------
+informacion
+LOs informes tiene opciones multiples de busquda.
+puden haber varios vendedores o clientes, etc que se pueden.
+Exportar PDF, Excel y imprimir informe directamente.
+Son informes se

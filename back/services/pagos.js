@@ -17,13 +17,13 @@ class PagosService{
         });
     }
 
-    newPago(fecha, nombreBanco, monto, tipoDocumento, nFactura, montoTotal){
+    newPago(fecha, monto, nFactura, montoTotal){
         return new Promise(async function (resolve, reject){
             let reqStatus = await facturaServices.updateStatus(nFactura, monto, montoTotal);
             
             
             if(reqStatus === true){
-                const query = `INSERT INTO pagos (Fecha, NombreBanco, Monto, IdTipoDocumentoPago, IdFactura) VALUES ('${fecha}','${nombreBanco}', '${monto}', '${tipoDocumento}', '${nFactura}');`;
+                const query = `INSERT INTO pagos (Fecha, Monto, IdTipoDocumentoPago, IdFactura) VALUES ('${fecha}', '${monto}', '1', '${nFactura}');`;
                // console.log("query "+query);
                 conn.query(query, (err, rows) => {
                     if(err){
@@ -37,6 +37,22 @@ class PagosService{
                 
                 return resolve(false);
             }
+            
+        });
+    }
+
+    newCheque(fecha, nombreBanco, hojaRuta, monto, idFactura){
+        return new Promise(async function (resolve, reject){
+            const query = `INSERT INTO cheques (fecha, banco, hojaRuta, monto, idCodigoFactura) VALUES ('${fecha}','${nombreBanco}','${hojaRuta}', '${monto}', '${idFactura}');`;
+            console.log("query "+query);
+            conn.query(query, (err, rows) => {
+                if(err){
+                    console.log(err);
+                    return resolve(err);
+                }else{
+                    return resolve(true);
+                }
+            });
             
         });
     }

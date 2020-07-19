@@ -1,5 +1,7 @@
 const { conn } = require('../lib/mariadb');
 
+const ValidarRut = require('./validarRut');
+const validarRut = new ValidarRut();
 
 class ClienteService{
     getAllClientes(){
@@ -50,6 +52,14 @@ class ClienteService{
                     if(rows[0] === "[]" || rows[0] === undefined){
                         //console.log(rows[0]);
                     }else{
+                        let result = validarRut.Rut(rut);
+                        if(!result){
+                           let result2 =  validarRut.buscarRut(rut);
+                           
+                           if(result2 !== false){
+                                rut = result2;
+                           }
+                        }
                         let idVendedor = rows[0].id;
                         const query = `INSERT INTO cliente (rut, nombreCliente, direccion, giro, idVendedor, telefono) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${giro}', '${idVendedor}', '${telefono}');`;
                         conn.query(query, (err, rows) => {
