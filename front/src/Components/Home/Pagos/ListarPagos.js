@@ -62,14 +62,16 @@ class ListaPagos extends React.Component {
       },
       persistenceID:"dataSave"
     };
-    return (
-      <div>
+    try {
+      return (
         <div>
-            <h1>Listar Pagos</h1>
+          <React15Tabulator columns={columns} data={this.state.data} options={options}/>
         </div>
-        <React15Tabulator columns={columns} data={this.state.data} options={options}/>
-      </div>
-    );
+      );
+    } catch (error) {
+      console.log("------------------------------------------------------");
+      console.log(error);
+    }
   }
 }
 

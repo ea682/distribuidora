@@ -84,11 +84,16 @@ class ListaFactura extends React.Component {
       },
       persistenceID:"dataSave"
     };
-    return (
-      <div>
-        <React15Tabulator columns={columns} data={this.state.data} options={options}/>
-      </div>
-    );
+    try {
+      return (
+        <div>
+          <React15Tabulator columns={columns} data={this.state.data} options={options}/>
+        </div>
+      );
+    } catch (error) {
+      console.log("------------------------------------------------------");
+      console.log(error);
+    }
   }
 }
 

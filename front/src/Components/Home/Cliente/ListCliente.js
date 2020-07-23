@@ -69,16 +69,16 @@ class ListClientes extends React.Component {
       },
       persistenceID:"dataSave"
     };
-    return (
-      <div>
+    try {
+      return (
         <div>
-          <div>
-            <button id="print-table">Print Table</button>
+          <React15Tabulator columns={columns} data={this.state.data} options={options}/>
         </div>
-        </div>
-        <React15Tabulator columns={columns} data={this.state.data} options={options}/>
-      </div>
-    );
+      );
+    } catch (error) {
+      console.log("------------------------------------------------------");
+      console.log(error);
+    }
   }
 }
 

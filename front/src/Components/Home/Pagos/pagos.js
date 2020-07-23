@@ -97,7 +97,7 @@ class pagos extends React.Component{
       try {
         console.log(result.data[0]);
         let datosR = result.data[0];
-        let rz = datosR['nombreCliente'];
+        let rz = datosR['nombrecliente'];
         let bruto = datosR['totalBruto'];
         let tipoFactura = datosR['nombreTipoFactura'];
         let codigoFactura = datosR['idFactura'];
@@ -106,7 +106,7 @@ class pagos extends React.Component{
           totalBruto : bruto,
           codigoFactura : codigoFactura
         });
-
+        console.log(rz);
         this.llenarDatos(rz, bruto);
 
         let cboVendedores = document.getElementById("cboTipoPago");
