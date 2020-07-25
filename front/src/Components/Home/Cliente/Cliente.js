@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import api from '../../config/Api';
 
-class Cliente extends React.Component{
 
+class Cliente extends React.Component{
+  
   constructor(props) {
     super(props);
 
@@ -11,9 +12,10 @@ class Cliente extends React.Component{
       rut : '',
       nombre : '',
       direccion : '',
+      telefono : '',
       giro : '',
-      tipoClientes : '',
-      comunas : ''
+      comunas : '',
+      idVendedor : ''
     };
 
     this.change = this.change.bind(this);
@@ -24,7 +26,6 @@ class Cliente extends React.Component{
       [e.target.name]: e.target.value
     });
   }
- 
   //Se ejecutan antes de renderizar el componente.
   componentDidMount(){
     //Validamos Token
@@ -49,6 +50,7 @@ class Cliente extends React.Component{
       //Validamos.
       if(valToken === true){
         this.llenarRegiones();
+        this.getVendedor();
       }
       else{
         //Limpiamos el storage y redirecinamos
@@ -91,7 +93,6 @@ class Cliente extends React.Component{
     .catch(err => {
       console.log(err);
     });
-
   }
 
   getProvincias = (e) =>{
@@ -198,24 +199,91 @@ class Cliente extends React.Component{
     this.setState({
       comunas : idComuna
     });
+  }
+
+  //Guardamos el vendedor
+  setVendedor = (e) => {
+
+    let idVendedor = e.target.value;
+    this.setState({
+      idVendedor : idVendedor
+    });
 
   }
 
-  handleClick =(e)=>{
-    let datosCliente = this.state;
-    axios.post(`${api}/api/clientes/${datosCliente.rut}/${datosCliente.nombre}/${datosCliente.direccion}/${datosCliente.giro}/${datosCliente.comunas}/${datosCliente.tipoClientes}`, {})
-    .then(res => {
-      console.log(res.data.message);
-      return res.data.message;
+  getVendedor(){
+    axios.get(api+'/api/vendedor/', {
+    }).then(res => {
+      let datos = res.data.vendedores;
+
+      let cboVendedor = document.getElementById("cboVendedor");
+
+      //Creamos la optcion seleccionar
+      let opt = document.createElement("option");
+      opt.value = 0;
+      opt.textContent = "Select...";
+      cboVendedor.options.add(opt);
+
+      for (let i = 0; i < datos.length; i++) {
+        //Creamos elemento
+        opt = document.createElement("option");
+        //Le damos valor
+        opt.value = datos[i].id;
+        //Le damos el texto
+        opt.textContent = datos[i].nombreVendedor;
+        cboVendedor.options.add(opt);
+        //const element = array[index];
+        
+      }
     })
     .catch(err => {
       console.log(err);
-    })
+    });
+  }
+
+  handleClick =(e)=>{
+    let rut = document.getElementsByName("rut")[0].value
+    if(rut !== ""){
+      let nombre = document.getElementsByName("nombre")[0].value
+      if(nombre !== ""){
+        let direccion = document.getElementsByName("direccion")[0].value
+        if(direccion !== ""){
+          let giro = document.getElementsByName("giro")[0].value
+          if(giro !== ""){
+            let datosCliente = this.state;
+            console.log(datosCliente);
+            axios.post(`${api}/api/clientes/${datosCliente.rut}/${datosCliente.nombre}/${datosCliente.direccion}/${datosCliente.telefono}/${datosCliente.giro}/${datosCliente.comunas}/${datosCliente.idVendedor}`, {})
+            .then(res => {
+              let result = res.data.messaje;
+              console.log(result);
+
+              //Valimos el resultado de la consulta.
+              if(result !== false){
+                alert("Datos ingresados");
+              }else{
+                alert("El Cliente ya fue ingresado");
+              }
+            })
+            .catch(err => {
+              alert('Error al procesar la solicitudad');
+            });
+          }else{
+            alert("No sea a ingresado informacion en el campo Giro")
+          }
+        }else{
+          alert("No sea a ingresado informacion en el campo Direccion")
+        }
+      }else{
+        alert("No sea a ingresado informacion en el campo Nombre")
+      }
+    }else{
+      alert("No sea a ingresado informacion en el campo Rut")
+    }
   }
 
   render(){
     return(
-      <div className="form-page">
+      <div className="form-page" id="newClient">
         <h1> Nuevo Cliente</h1>
 
         <form>
@@ -224,20 +292,21 @@ class Cliente extends React.Component{
             <input onChange={e => this.change(e)} className= 'form-control' type = 'text' name = 'rut' value= {this.state.rut}  />
           </div>
           <div className = 'form-group'>
-            <label>Tipo de Cliente</label>
-            <select id='Tipo_Cliente' className = 'form-control' name = 'tipo_cliente' value= {this.state.tipo_cliente}>
-            <option value="0">Select...</option>
-            <option value="1">Persona</option>
-            <option value="2">Empresa</option>
-            </select>
-          </div>
-          <div className = 'form-group'>
             <label>Nombre</label>
             <input onChange={e => this.change(e)} className= 'form-control' type = 'text' name = 'nombre' value= {this.state.nombre} />
           </div>
           <div className = 'form-group'>
             <label>Dirección</label>
             <input onChange={e => this.change(e)} className= 'form-control' type = 'text' name = 'direccion' value= {this.state.direccion}  />
+          </div>
+          <div className='form-group'>
+            <label>Telefono</label>
+            <input onChange={e => this.change(e)} className='form-control' type='text' name ='telefono' value= {this.state.telefono}  />
+          </div>
+          <div className = 'form-group' >
+            <label>Vendedor</label>
+            <select className="form-control" id="cboVendedor" onChange = {this.setVendedor} value= {this.state.idVendedor}>
+            </select>
           </div>
           <div className = 'form-group' >
             <label>Region</label>
@@ -258,6 +327,7 @@ class Cliente extends React.Component{
             <label>Giro</label>
             <input onChange={e => this.change(e)} className= 'form-control' type = 'text' name = 'giro' value= {this.state.giro}  />
           </div>
+          
 
           <button type = 'button' onClick ={this.handleClick} className = 'btn btn-primary'> Guardar </button>
         </form>

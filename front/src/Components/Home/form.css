@@ -2,3 +2,31 @@
     width: 50%;
     margin-left: 25%;
 }
+
+.divMsj{
+    position: fixed;
+    top: 80%;
+    border-radius: 30px;
+    width: 15%;
+    height: 8%;
+    left: 0%;
+}
+
+.divMsj label{
+    padding: 5% 0% 0% 6%;
+}
+
+.divOK{
+    background-color: #0cae0c;
+}
+
+.divRep{
+    background-color: orange;
+}
+.divRep label{
+    padding: 5% 0% 0% 10%;
+}
+
+.divError{
+    background-color: rgb(238, 25, 25);
+}
