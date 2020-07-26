@@ -28,5 +28,8 @@
     "path": "^0.12.7",
     "promise": "^8.1.0",
     "xlsx": "^0.16.2"
+  },
+  "directories": {
+    "lib": "lib"
   }
 }
