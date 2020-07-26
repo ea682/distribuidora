@@ -20,7 +20,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "material-table": "^1.65.0",
-    "nodemon": "^2.0.3",
+    "nodemon": "^2.0.4",
     "popper.js": "^1.16.1",
     "react": "^16.13.0",
     "react-background-slideshow": "^1.0.4",
@@ -55,5 +55,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
 }
