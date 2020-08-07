@@ -24,7 +24,7 @@ class LogService{
                 const query = `INSERT INTO log (error, nError, sqlMessage, sql) VALUES ('${error}','${nError}', '${sqlMessage}');`;
                 conn.query(query, (err, rows) => {
                 if(err){
-                    console.log(err);
+                    //console.log(err);
                     return resolve(err);
                 }else{
                     return resolve(true);

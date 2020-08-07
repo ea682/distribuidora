@@ -13,6 +13,17 @@ class VendedorService{
         });
     }
 
+    getIdVendedor(nombre){
+        return new Promise(function (resolve, reject){
+            const query = `SELECT id from vendedor WHERE codigo = ${nombre}`;
+
+            conn.query(query, (err, rows) => {
+                if(err) throw err;
+                return resolve(rows)
+            })
+        });
+    }
+
     newVendedor(rut, nombre, direccion, comision){
         return new Promise(function (resolve, reject){
             const query = `INSERT INTO vendedor (codigo, nombreVendedor, direccion, comision) VALUES ('${rut}', '${nombre}', '${direccion}', '${comision}');`;

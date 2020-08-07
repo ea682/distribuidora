@@ -21,6 +21,7 @@ import pagos from "./Pagos/pagos";
 import listarPagos from './Pagos/ListarPagos'
 import PagoCheque from'./Pagos/PagosCheques'
 
+import Exportacion from'./Exportacion/home'
 class Main extends Component {
     render() {
       return (
@@ -52,6 +53,7 @@ class Main extends Component {
                         <NavDropdown.Item href="#/listarPagos">Listar Pagos</NavDropdown.Item>
                       </NavDropdown>
                       <Nav.Link href="#/carga">Carga Datos</Nav.Link>
+                      <Nav.Link href="#/Exportacion">Exportacion</Nav.Link>
                       </Nav>
                   </Navbar>
                   <div className="content">
@@ -73,6 +75,7 @@ class Main extends Component {
                       <Route path="/newPagos" component={pagos}/>
                       <Route path="/newPagosCheque" component={PagoCheque}/>
                       <Route path="/listarPagos" component={listarPagos}/>
+                      <Route path="/exportacion" component={Exportacion}/>
                   </div>
               </div>
             <div className="footer-copyright text-center py-5">

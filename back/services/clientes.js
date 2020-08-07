@@ -26,9 +26,9 @@ class ClienteService{
         });
     }
 
-    newCliente(rut, nombreCliente, direccion, telefono, giro, comuna, idVendedor){
+    newCliente(rut, nombreCliente, direccion, telefono, giro, comuna){
         return new Promise(function (resolve, reject){
-            const query = `INSERT INTO cliente (rut, nombreCliente, direccion, telefono, giro, idComuna, idVendedor) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${telefono}', '${giro}', '${comuna}', '${idVendedor}');`;
+            const query = `INSERT INTO cliente (rut, nombreCliente, direccion, telefono, giro, idComuna) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${telefono}', '${giro}', '${comuna}');`;
             console.log(query);
             conn.query(query, (err, rows) => {
                 if(err){
@@ -40,37 +40,17 @@ class ClienteService{
         });
     }
 
-    newClienteCarga(rut, nombreCliente, direccion, giro, codigoVendedor, telefono){
+    newClienteCarga(rut, nombreCliente, direccion, giro, telefono){
         return new Promise(function (resolve, reject){
-            //Buscamos el codigo del vendedor
-            const query = `SELECT id FROM vendedor WHERE codigo = "${codigoVendedor}" `;
+            const query = `INSERT INTO cliente (rut, nombreCliente, direccion, giro, telefono) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${giro}', '${telefono}');`;
             conn.query(query, (err, rows) => {
                 if(err){
-                    //console.log(err);
-                }else{
-                    //Le agregamos el codigo al vendedor.
-                    if(rows[0] === "[]" || rows[0] === undefined){
-                        //console.log(rows[0]);
-                    }else{
-                        let result = validarRut.Rut(rut);
-                        if(!result){
-                           let result2 =  validarRut.buscarRut(rut);
-                           
-                           if(result2 !== false){
-                                rut = result2;
-                           }
-                        }
-                        let idVendedor = rows[0].id;
-                        const query = `INSERT INTO cliente (rut, nombreCliente, direccion, giro, idVendedor, telefono) VALUES ('${rut}', '${nombreCliente}', '${direccion}', '${giro}', '${idVendedor}', '${telefono}');`;
-                        conn.query(query, (err, rows) => {
-                            if(err){
-                                //console.log(query);
-                                return resolve(err);
-                            }else{
-                                return resolve(true);
-                            }
-                        });
+                    if(err.errno !== 1062){
+                        console.log(err);
                     }
+                    //return resolve(err);
+                }else{
+                    return resolve(true);
                 }
             });
         });
