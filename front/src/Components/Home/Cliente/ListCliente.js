@@ -32,14 +32,19 @@ class ListClientes extends React.Component {
                 nombreCliente: datos[i]['nombreCliente'],
                 direccion: datos[i]['direccion'],
                 telefono: datos[i]['telefono'],
-                giro: datos[i]['giro'],
-                nombreVendedor: datos[i]['nombreVendedor']
+                giro: datos[i]['giro']
             });
         }
         this.setState({ data: row })
       });
     
   }
+
+  test(e){
+    alert(e);
+  }
+
+
   render() {
     //Agregamos las columnas a la tabla.
     const columns = [
@@ -52,8 +57,7 @@ class ListClientes extends React.Component {
       { title: "Nombre Cliente", field: "nombreCliente", editor:true, headerFilter:"input"},
       { title: "Direccion", field: "direccion", editor:true, headerFilter:"input"},
       { title: "Telefono", field: "telefono", editor:true},
-      { title: "Giro", field: "giro", editor:true, headerFilter:"input"},
-      { title: "Nombre Vendedor", field: "nombreVendedor", editor:true, headerFilter:"input"}
+      { title: "Giro", field: "giro", editor:true, headerFilter:"input"}
     ];
     //Opciones de data table
     const options = {
@@ -67,7 +71,8 @@ class ListClientes extends React.Component {
         filter:true,
         columns:true,
       },
-      persistenceID:"dataSave"
+      persistenceID:"dataSave",
+      onChange: this.test
     };
     try {
       return (
@@ -76,8 +81,6 @@ class ListClientes extends React.Component {
         </div>
       );
     } catch (error) {
-      console.log("------------------------------------------------------");
-      console.log(error);
     }
   }
 }

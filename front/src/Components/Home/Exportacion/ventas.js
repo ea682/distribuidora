@@ -146,7 +146,8 @@ class ListaPagos extends React.Component {
       persistenceID:"dataSave"
     };
     return (
-        <div className="form-page">
+        <div>
+            <h1>Ventas</h1>
             <div className = 'form-group'>
                 <div className = 'form-group'>
                     <label>Fecha de Inico</label>
@@ -156,8 +157,8 @@ class ListaPagos extends React.Component {
                     <label>Fecha de vencimiento</label>
                     <input onChange={e => this.change(e)} className= 'form-control' type = 'date' name='final' value= {this.state.ciudad}  />
                 </div>
-                <div>
-                <button type = 'button' onClick ={this.consultaVentas} className = 'btn btn-primary'> Guardar </button>
+                <div className = 'form-group'>
+                  <button type = 'button' onClick ={this.consultaVentas} className = 'btn btn-primary'> Consultar </button>
                 </div>
             </div>
             <div>

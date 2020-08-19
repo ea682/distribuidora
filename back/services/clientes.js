@@ -17,7 +17,7 @@ class ClienteService{
 
     getAllClientesTabla(){
         return new Promise(function (resolve, reject){
-            const query = "SELECT cli.id, cli.rut, cli.nombreCliente, cli.direccion, cli.telefono, cli.giro, v.nombreVendedor FROM cliente AS cli INNER JOIN vendedor AS v ON cli.idVendedor = v.id";
+            const query = "SELECT cli.id, cli.rut, cli.nombreCliente, cli.direccion, cli.telefono, cli.giro FROM cliente AS cli";
 
             conn.query(query, (err, rows) => {
                 if(err) throw err;

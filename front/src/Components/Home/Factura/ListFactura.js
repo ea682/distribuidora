@@ -2,7 +2,7 @@ import React from "react";
 import api from '../../config/Api';
 import "react-tabulator/lib/css/bootstrap/tabulator_bootstrap.min.css";
 import { React15Tabulator } from "react-tabulator";
-
+import moment from 'moment';
 
 
 
@@ -23,22 +23,25 @@ class ListaFactura extends React.Component {
         datos = datos.factura;
         let row = [];
         for (let i = 0; i < datos.length; i++) {
+
+            let newFecha = new Date(datos[i]['fechadocumento']);
+            newFecha = moment(newFecha).format('DD/MM/YYYY');
             //Guardamos los datos en un array
             row.push({ 
                 id: datos[i]['id'],
                 rut: datos[i]['rut'],
-                nombreCliente: datos[i]['nombreCliente'],
+                nombreCliente: datos[i]['nombrecliente'],
                 direccion: datos[i]['direccion'],
                 giro: datos[i]['giro'],
                 rutVendedor: datos[i]['rutVendedor'],
                 telefono: datos[i]['telefono'],
-                nombreTipoFactura: datos[i]['nombreTipoFactura'],
+                nombreTipoFactura: datos[i]['nombretipofactura'],
                 nFactura: datos[i]['nFactura'],
-                fechaDocumento: datos[i]['fechaDocumento'],
+                fechaDocumento: newFecha,
                 codigo: datos[i]['codigo'],
                 descripcion: datos[i]['descripcion'],
                 cantidad: datos[i]['cantidad'],
-                precioUnitario: datos[i]['precioUnitario'],
+                precioUnitario: datos[i]['preciounitario'],
                 totalUnitario: datos[i]['totalUnitario'],
                 totalBruto: datos[i]['totalBruto']
             });
