@@ -83,6 +83,9 @@ class FacturaService{
                             WHERE F.id = fa.id AND pa.IdTipoDocumentoPago = 1)                                    ELSE 'Fallo'                                                             END AS 'Total'                                                         FROM productosfactura AS sumP                                                         INNER JOIN detalleFactura AS sumD                                                         ON sump.idDetalleFacura = sumD.id                                                         INNER JOIN factura AS sumF                                                         ON sumD.idFactura = sumF.id                                                         WHERE sumF.numeroFactura = fa.numeroFactura                                        ) AS 'totalBruto'                                 FROM factura AS fa                                     INNER JOIN detalleFactura AS de                                        ON fa.id = de.idFactura                                     INNER JOIN productosfactura AS proF                                        ON proF.idDetalleFacura = de.id                                    INNER JOIN tipofactura AS tf                                       ON fa.idTipoFactura = tf.id                                     INNER JOIN  tipopago AS tp                                        ON fa.idTipoPago = tp.id                                     INNER JOIN  cliente AS cli                                        ON fa.idCliente = cli.id                                     INNER JOIN vendedor AS v                                        ON cli.idVendedor = v.id                                     INNER JOIN statusfactura AS sf                                        ON de.idStatusFactura = sf.id                                     INNER JOIN  producto AS pro                                        
             ON proF.idProducto = pro.id   
             WHERE fa.numeroFactura like '%${numeroFactura}%'`;
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 
                 conn.query(query, (err, rows) => {
@@ -101,6 +104,7 @@ class FacturaService{
                 })
             } catch (err) {
                 //console.log(err);
+<<<<<<< HEAD
 <<<<<<< HEAD
                 const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;
                 conn.query(queryError, (err, rows) => {
@@ -133,6 +137,8 @@ class FacturaService{
                 })
             } catch (err) {
                 //console.log(err);
+=======
+>>>>>>> master
 =======
 >>>>>>> master
                 const queryError = `INSERT INTO log (nError, sqlMessage) VALUES ("${err.errno}", "${err.sqlMessage}")`;

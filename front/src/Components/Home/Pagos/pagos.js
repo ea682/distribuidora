@@ -4,6 +4,7 @@ import api from '../../config/Api';
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class pagos extends React.Component{
   
   constructor(props) {
@@ -14,6 +15,10 @@ class pagos extends React.Component{
     this.validarMontoYbruto = this.validarMontoYbruto.bind(this);
     this.addMonto = this.addMonto.bind(this);
   }
+=======
+class Vendedor extends React.Component{
+  state = {};
+>>>>>>> master
 =======
 class Vendedor extends React.Component{
   state = {};
@@ -106,6 +111,7 @@ class Vendedor extends React.Component{
     })
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   llenarDatos(razonSocial, bruto){
     document.getElementsByName("razonSocial")[0].value = razonSocial;
@@ -197,6 +203,8 @@ class Vendedor extends React.Component{
     }
   }
 
+=======
+>>>>>>> master
 =======
 >>>>>>> master
   render(){
