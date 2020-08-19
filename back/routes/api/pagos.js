@@ -9,7 +9,7 @@ router.get("/", async function(req, res, next) {
     try {
         const datos = await pagosServices.getAllPagos().then(JSON);
         res.status(200).json({
-            producto: datos,
+            pagos: datos,
         });
     } catch (error) {
         res.status(200).json({
